@@ -1,38 +1,38 @@
+import dataSource from '../database/models'
+
 class Service {
-  constructor(model) {
-    this.model = model;
+  constructor(nomeDoModel) {
+    this.model = nomeDoModel;
   }
 
-  async criar(dados) {
-    return await this.model.create(dados);
+  async criarRegistro(dados) {
+    return await dataSource[this.model].create(dados);   
   }
 
-  async listar() {
-    return await this.model.findAll();
+  async listarTodos() {
+    return await dataSource[this.model].findAll();
   }
 
-  async buscarPorId(id) {
-    return await this.model.findByPk(id);
-  }
+  async obterRegistroPorId(id) {
+    const registro = await dataSource[this.model].findByPk(id);
 
-  async atualizar(id, dados) {
-    const registro = await this.buscarPorId(id);
-
-    if (!registro) {
+    if (!registro) {   
       throw new Error('Registro não encontrado');
     }
+
+    return registro;
+  }
+
+  async atualizarRegistro(id, dados) {
+    const registro = await this.obterRegistroPorId(id);
 
     await registro.update(dados);
 
     return registro;
   }
 
-  async deletar(id) {
-    const registro = await this.buscarPorId(id);
-
-    if (!registro) {
-      throw new Error('Registro não encontrado');
-    }
+  async deletarRegistro(id) {
+    const registro = await this.obterRegistroPorId(id);
 
     await registro.destroy();
   }

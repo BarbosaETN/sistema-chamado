@@ -1,8 +1,8 @@
-import { DataTypes, Sequelize } from 'sequelize';
-import sequelize from '../config/database.js';
+import { DataTypes, Sequelize } from "sequelize";
+import sequelize from "../../config/database.js";
 
 const Chamado = sequelize.define(
-  'Chamado',
+  "Chamado",
   {
     id: {
       type: Sequelize.INTEGER,
@@ -27,10 +27,10 @@ const Chamado = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: 'Aberto',
+      defaultValue: "Aberto",
     },
   },
   {
-    tableName: 'chamados',
+    tableName: "chamados",
   },
 );

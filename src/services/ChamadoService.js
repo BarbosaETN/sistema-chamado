@@ -1,10 +1,9 @@
-import Service from './Service.js';
-import Chamado from '../models/Chamado.js';
+import Service from "./Service.js";
 
 class ChamadoService extends Service {
-    constructor() {
-        super(Chamado);
-    }
+  constructor() {
+    super('Chamado');
+  }
 }
 
 export default ChamadoService;

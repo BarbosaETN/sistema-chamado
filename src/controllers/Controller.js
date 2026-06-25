@@ -1,42 +1,42 @@
 class Controller {
-    contructor(service) {
+    constructor(service) {
         this.service = service;
     }
 
-    async listar(req, res) {
+    async listarRegistros(req, res) {
         try {
-            const dados = await this.service.listar()
+            const dados = await this.service.listarTodos()
             return res.send(200).json(dados)
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
         }
     }
 
-    async buscarPorId(req, res) {
+    async buscarUmPorId(req, res) {
         const { id } = req.params 
         try {
-            const dado = await this.service.buscarPorId(id)
+            const dado = await this.service.buscarRegistroPorId(id)
             return res.send(200).json(dado)
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
         }
     }
     
-    async criar(req, res) {
+    async criarNovo(req, res) {
         const criacaoDados = req.body 
         try {
-            const dado = await this.service.criar(criacaoDados)
+            const dado = await this.service.criarRegistro(criacaoDados)
             return res.send(200).json(dado)
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
         }
     }
    
-    async atualizar(req, res) {
+    async atualizarUmRegistro(req, res) {
         const id = req.params
         const dadosAtualizados = req.body 
         try {
-            const dado = await this.service.atualizar(id, dadosAtualizados)
+            const dado = await this.service.atualizarRegistro(id, dadosAtualizados)
             if (!dado) {
                 return res.status(400).json({ mensagem: 'não foi atualizado' });
             }
@@ -46,10 +46,10 @@ class Controller {
         }
     }
     
-    async deletar(req, res) {
+    async deletarRegistroPorId(req, res) {
         const { id } = req.params 
         try {
-            await this.service.deletar(id)
+            await this.service.deletarRegistro(id)
             return res.status(200).json({ mensagem: `id ${id} deletado` });
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
