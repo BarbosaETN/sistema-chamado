@@ -13,8 +13,12 @@ class Service {
     return await dataSource[this.model].findAll();
   }
 
+  async buscarRegistroPorId(id) {
+    return await dataSource[this.model].findByPk(id)
+  }
+
   async obterRegistroPorId(id) {
-    const registro = await dataSource[this.model].findByPk(id);
+    const registro = await dataSource[this.model].buscarRegistroPorId(id);
 
     if (!registro) {   
       throw new Error('Registro não encontrado');
@@ -34,7 +38,7 @@ class Service {
   async deletarRegistro(id) {
     const registro = await this.obterRegistroPorId(id);
 
-    await registro.destroy();
+    return await registro.destroy();
   }
 }
 
