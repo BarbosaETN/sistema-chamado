@@ -15,15 +15,11 @@ class Controller {
     async buscarUmPorId(req, res) {
         const { id } = req.params 
         try {
-            const dado = await this.service.buscarRegistroPorId(id)
+            const dado = await this.service.obterRegistroPorId(id)
 
-            if (!dado) {
-                return res.status(404).json({ erro: 'Registro não encontrado' });
-            }
-            
             return res.status(200).json(dado)
         } catch (error) {
-            return res.status(500).json({ erro: erro.message });
+            return res.status(404).json({ erro: erro.message });
         }
     }
     
@@ -52,7 +48,7 @@ class Controller {
         const { id } = req.params 
         try {
             await this.service.deletarRegistro(id)
-            return res.status(200).json({ mensagem: `id ${id} deletado` });
+            return res.status(204).json({ mensagem: `id ${id} deletado` });
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
         }
