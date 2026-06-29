@@ -21,7 +21,7 @@ class Controller {
                 return res.status(404).json({ erro: 'Registro não encontrado' });
             }
             
-            return res.send(200).json(dado)
+            return res.status(200).json(dado)
         } catch (error) {
             return res.status(500).json({ erro: erro.message });
         }
