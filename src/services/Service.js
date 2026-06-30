@@ -1,4 +1,4 @@
-import dataSource from '../database/models'
+import dataSource from '../database/models/index.js'
 
 class Service {
   constructor(nomeDoModel) {

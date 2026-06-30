@@ -10,3 +10,6 @@ router.get('/chamados/:id', (req, res) => chamadoController.buscarUmPorId(req, r
 router.post('/chamados', (req, res) => chamadoController.criarNovo(req, res));
 router.put('/chamados/:id', (req, res) => chamadoController.atualizarUmRegistro(req, res));
 router.delete('/chamados/:id', (req, res) => chamadoController.deletarRegistroPorId(req, res));
+
+
+export default router;

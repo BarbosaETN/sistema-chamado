@@ -6,7 +6,9 @@ const Chamado = sequelize.define(
   {
     id: {
       type: Sequelize.INTEGER,
+      allowNull: false,
       autoIncrement: true,
+      primaryKey: true
     },
 
     titulo: {
@@ -34,3 +36,5 @@ const Chamado = sequelize.define(
     tableName: "chamados",
   },
 );
+
+export default Chamado;
