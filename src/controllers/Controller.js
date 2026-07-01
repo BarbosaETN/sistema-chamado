@@ -3,54 +3,54 @@ class Controller {
         this.service = service;
     }
 
-    async listarRegistros(req, res) {
+    async listarRegistros(req, res, next) {
         try {
             const dados = await this.service.listarTodos()
             return res.status(200).json(dados)
         } catch (error) {
-            return res.status(500).json({ erro: erro.message });
+            next(error);
         }
     }
 
-    async buscarUmPorId(req, res) {
+    async buscarUmPorId(req, res, next) {
         const { id } = req.params 
         try {
-            const dado = await this.service.obterRegistroPorId(id)
+            const dado = await this.service.obterRegistroPorId(Number(id))
 
             return res.status(200).json(dado)
         } catch (error) {
-            return res.status(404).json({ erro: erro.message });
+            next(error);
         }
     }
     
-    async criarNovo(req, res) {
+    async criarNovo(req, res, next) {
         const criacaoDados = req.body 
         try {
             const dado = await this.service.criarRegistro(criacaoDados)
             return res.status(201).json(dado)
         } catch (error) {
-            return res.status(500).json({ erro: erro.message });
+            next(error);
         }
     }
    
-    async atualizarUmRegistro(req, res) {
+    async atualizarUmRegistro(req, res, next) {
         const { id } = req.params
         const dadosAtualizados = req.body 
         try {
-            const dado = await this.service.atualizarRegistro(id, dadosAtualizados)
+            const dado = await this.service.atualizarRegistro(Number(id), dadosAtualizados)
             return res.status(200).json(dado)
         } catch (error) {
-            return res.status(500).json({ erro: erro.message });
+            next(error);
         }
     }
     
-    async deletarRegistroPorId(req, res) {
+    async deletarRegistroPorId(req, res, next) {
         const { id } = req.params 
         try {
-            await this.service.deletarRegistro(id)
-            return res.status(204).json({ mensagem: `id ${id} deletado` });
+            await this.service.deletarRegistro(Number(id))
+            return res.status(200).json({ mensagem: `id ${id} deletado` });
         } catch (error) {
-            return res.status(500).json({ erro: erro.message });
+            next(error);
         }
     }    
 }

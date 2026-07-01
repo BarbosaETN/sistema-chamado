@@ -1,5 +1,7 @@
 import { DataTypes, Sequelize } from "sequelize";
 import sequelize from "../../config/database.js";
+import STATUS, { STATUS_VALUES } from "../../constants/status.js";
+import PRIORIDADE, { PRIORIDADE_VALUES } from "../../constants/prioridade.js";
 
 const Chamado = sequelize.define(
   "Chamado",
@@ -29,8 +31,20 @@ const Chamado = sequelize.define(
     status: {
       type: DataTypes.STRING,
       allowNull: false,
-      defaultValue: "Aberto",
+      defaultValue: STATUS.ABERTO,
+      validate: {
+        isIn: [STATUS_VALUES]
+      }
     },
+
+    prioridade: {
+      type: DataTypes.STRING,
+      allowNull: false,
+      defaultValue: PRIORIDADE.MEDIA,
+      validate: {
+        isIn: [PRIORIDADE_VALUES]
+      }      
+    }
   },
   {
     tableName: "chamados",
