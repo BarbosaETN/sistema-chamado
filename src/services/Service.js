@@ -1,17 +1,17 @@
-import dataSource from '../database/models/index.js'
-import NotFoundError from '../errors/NotFoundError.js';
+import dataSource from "../database/models/index.js";
+import NotFoundError from "../errors/NotFoundError.js";
 
 class Service {
   constructor(nomeDoModel) {
     this.model = nomeDoModel;
 
-        if (!this.model) {
-        throw new Error(`Model "${nomeDoModel}" não encontrado.`);
+    if (!this.model) {
+      throw new Error(`Model "${nomeDoModel}" não encontrado.`);
     }
   }
 
   async criarRegistro(dados) {
-    return await dataSource[this.model].create(dados);   
+    return await dataSource[this.model].create(dados);
   }
 
   async listarTodos() {
@@ -19,13 +19,13 @@ class Service {
   }
 
   async buscarRegistroPorId(id) {
-    return await dataSource[this.model].findByPk(id)
+    return await dataSource[this.model].findByPk(id);
   }
 
   async obterRegistroPorId(id) {
     const registro = await this.buscarRegistroPorId(id);
 
-    if (!registro) {   
+    if (!registro) {
       throw new NotFoundError(`${this.model.name} não encontrado`);
     }
 
