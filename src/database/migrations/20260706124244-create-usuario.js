@@ -1,4 +1,7 @@
 'use strict';
+
+import STATUS_CADASTRO from '../../constants/statusCadastro.js';
+
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up(queryInterface, Sequelize) {
@@ -10,19 +13,30 @@ export default {
         type: Sequelize.INTEGER
       },
       nome: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
       },
       email: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false,
+        unique: true,
       },
       senha: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       cargo: {
-        type: Sequelize.STRING
+        type: Sequelize.STRING,
+        allowNull: false
       },
       statusCadastro: {
-        type: Sequelize.STRING
+        type: Sequelize.ENUM(
+          'PENDENTE',
+          'APROVADO',
+          'REJEITADO'
+        ),
+        allowNull: false,
+        defaultValue: STATUS_CADASTRO.PENDENTE,
       },
       createdAt: {
         allowNull: false,

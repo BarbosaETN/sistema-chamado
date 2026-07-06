@@ -43,7 +43,7 @@ Usuario.init(
         statusCadastro: {
             type: DataTypes.ENUM(...STATUS_CADASTRO_VALUES),
             allowNull: false,
-            defaultValue: STATUS_CADASTRO.ATIVO,
+            defaultValue: STATUS_CADASTRO.PENDENTE,
             validate: {
                 isIn: [STATUS_CADASTRO_VALUES],
             },

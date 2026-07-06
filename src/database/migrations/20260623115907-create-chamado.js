@@ -1,5 +1,7 @@
 'use strict';
 
+import STATUS from '../../constants/status.js';
+
 /** @type {import('sequelize-cli').Migration} */
 export default {
   async up (queryInterface, Sequelize) {
@@ -27,9 +29,15 @@ export default {
       },
 
       status: {
-        type: Sequelize.STRING,
+        type: Sequelize.ENUM(
+          'ABERTO',
+          'EM ANDAMENTO',
+          'AGUARDANDO',
+          'RESOLVIDO',
+          'FECHADO'
+        ),
         allowNull: false,
-        defaultValue: 'Aberto',
+        defaultValue: STATUS.ABERTO,
       },
 
       createdAt: {
