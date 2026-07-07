@@ -1,9 +1,9 @@
-import dataSource from "../database/models/index.js";
+import models from "../database/models/index.js";
 import NotFoundError from "../errors/NotFoundError.js";
 
 class Service {
   constructor(nomeDoModel) {
-    this.model = nomeDoModel;
+    this.model = models[nomeDoModel];
 
     if (!this.model) {
       throw new Error(`Model "${nomeDoModel}" não encontrado.`);
@@ -11,15 +11,15 @@ class Service {
   }
 
   async criarRegistro(dados) {
-    return await dataSource[this.model].create(dados);
+    return await this.model.create(dados);
   }
 
   async listarTodos() {
-    return await dataSource[this.model].findAll();
+    return await this.model.findAll();
   }
 
   async buscarRegistroPorId(id) {
-    return await dataSource[this.model].findByPk(id);
+    return await this.model.findByPk(id);
   }
 
   async obterRegistroPorId(id) {

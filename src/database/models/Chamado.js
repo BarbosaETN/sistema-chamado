@@ -4,52 +4,60 @@ import STATUS, { STATUS_VALUES } from "../../constants/status.js";
 import PRIORIDADE, { PRIORIDADE_VALUES } from "../../constants/prioridade.js";
 
 class Chamado extends Model {
-    static associate(models) {
-        // associações ficarão aqui
-    }
+  static associate(models) {
+    Chamado.belongsTo(Usuario, {
+      foreignKey: "usuarioId",
+      as: "usuario",
+    });
+  }
 }
 
 Chamado.init(
-    {
-        id: {
-            type: DataTypes.INTEGER,
-            primaryKey: true,
-            autoIncrement: true,
-            allowNull: false,
-        },
-
-        titulo: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-
-        descricao: {
-            type: DataTypes.TEXT,
-            allowNull: false,
-        },
-
-        setor: {
-            type: DataTypes.STRING,
-            allowNull: false,
-        },
-
-        status: {
-            type: DataTypes.ENUM(...STATUS_VALUES),
-            allowNull: false,
-            defaultValue: STATUS.ABERTO,
-        },
-
-        prioridade: {
-            type: DataTypes.ENUM(...PRIORIDADE_VALUES),
-            allowNull: false,
-            defaultValue: PRIORIDADE.MEDIA,
-        },
+  {
+    id: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false,
     },
-    {
-        sequelize,
-        modelName: "Chamado",
-        tableName: "chamados",
-    }
+
+    titulo: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    descricao: {
+      type: DataTypes.TEXT,
+      allowNull: false,
+    },
+
+    setor: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+
+    status: {
+      type: DataTypes.ENUM(...STATUS_VALUES),
+      allowNull: false,
+      defaultValue: STATUS.ABERTO,
+    },
+
+    prioridade: {
+      type: DataTypes.ENUM(...PRIORIDADE_VALUES),
+      allowNull: false,
+      defaultValue: PRIORIDADE.MEDIA,
+    },
+
+    usuarioId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+    },
+  },
+  {
+    sequelize,
+    modelName: "Chamado",
+    tableName: "chamados",
+  },
 );
 
 export default Chamado;
