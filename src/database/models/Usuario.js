@@ -6,7 +6,7 @@ import STATUS_CADASTRO, {
 
 class Usuario extends Model {
   static associate(models) {
-    Usuario.hasMany(Chamado, {
+    Usuario.hasMany(models.Chamado, {
       foreignKey: "usuarioId",
       as: "chamados",
     });

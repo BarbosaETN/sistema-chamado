@@ -1,5 +1,8 @@
+import { Op } from 'sequelize';
+import bcrypt from 'bcrypt';
+import authConfig from '../config/auth.js';
+
 import Service from './Service.js';
-import dataSource from '../database/models/index.js';
 import ValidationError from '../errors/ValidationError.js';
 
 class UsuarioService extends Service {
@@ -8,7 +11,7 @@ class UsuarioService extends Service {
   }
 
   async criarRegistro(dados) {
-    const usuarioExistente = await dataSource.Usuario.findOne({
+    const usuarioExistente = await this.model.findOne({
       where: {
         email: dados.email,
       },
@@ -18,12 +21,15 @@ class UsuarioService extends Service {
       throw new ValidationError("Já existe um usuário com este e-mail.");
     }
 
+    // senha criptografa antes de ser salva
+    dados.senha = await bcrypt.hash(dados.senha, authConfig.saltRounds);
+
     return await super.criarRegistro(dados);
   }
 
   async atualizarRegistro(id, dados) {
     if (dados.email) {
-      const usuarioExistente = await dataSource.Usuario.findOne({
+      const usuarioExistente = await this.model.findOne({
         where: {
           email: dados.email,
           id: {
@@ -35,6 +41,11 @@ class UsuarioService extends Service {
       if (usuarioExistente) {
         throw new ValidationError('Já existe um usuário com este e-mail.');
       }
+    }
+
+    // caso haja alteração na senha, ele criptografa novamente
+    if (dados.senha) {
+      dados.senha = await bcrypt.hash(dados.senha, authConfig.saltRounds);
     }
 
     return await super.atualizarRegistro(id, dados);

@@ -5,7 +5,7 @@ import PRIORIDADE, { PRIORIDADE_VALUES } from "../../constants/prioridade.js";
 
 class Chamado extends Model {
   static associate(models) {
-    Chamado.belongsTo(Usuario, {
+    Chamado.belongsTo(models.Usuario, {
       foreignKey: "usuarioId",
       as: "usuario",
     });
