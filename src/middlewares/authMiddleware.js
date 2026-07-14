@@ -27,7 +27,9 @@ export default async function authMiddleware(req, res, next){
         }
 
         req.usuario = {
-            id: payload.id,
+            id: usuario.id,
+            cargo: usuario.cargo,
+            statusCadastro: usuario.statusCadastro,
         };
 
         next();

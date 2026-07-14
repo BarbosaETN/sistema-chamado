@@ -1,8 +1,8 @@
 const PRIORIDADE = Object.freeze({
-  BAIXA: 'Baixa',
-  MEDIA: 'Média',
-  ALTA: 'Alta',
-  CRITICA: 'Crítica'
+  BAIXA: 'BAIXA',
+  MEDIA: 'MEDIA',
+  ALTA: 'ALTA',
+  CRITICA: 'CRITICA'
 });
 
 export const PRIORIDADE_VALUES = Object.freeze(Object.values(PRIORIDADE));

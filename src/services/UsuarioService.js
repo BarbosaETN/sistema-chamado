@@ -4,6 +4,7 @@ import authConfig from '../config/auth.js';
 
 import Service from './Service.js';
 import ValidationError from '../errors/ValidationError.js';
+import STATUS_CADASTRO from '../constants/statusCadastro.js';
 
 class UsuarioService extends Service {
   constructor() {
@@ -49,6 +50,24 @@ class UsuarioService extends Service {
     }
 
     return await super.atualizarRegistro(id, dados);
+  }
+
+  async alterarStatusCadastro(id, status) {
+    const usuario = await this.obterRegistroPorId(id);
+
+    usuario.statusCadastro = status;
+
+    await usuario.save();
+
+    return usuario;
+  }
+
+  async aprovarUsuario(id){
+    return await this.alterarStatusCadastro(id, STATUS_CADASTRO.APROVADO);
+  }
+
+  async rejeitarUsuario(id){
+    return await this.alterarStatusCadastro(id, STATUS_CADASTRO.REJEITADO)
   }
 }
 
