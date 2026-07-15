@@ -64,7 +64,7 @@ class UsuarioService extends Service {
 
   async aprovarUsuario(id){
     return await this.alterarStatusCadastro(id, STATUS_CADASTRO.APROVADO);
-  }
+  }   
 
   async rejeitarUsuario(id){
     return await this.alterarStatusCadastro(id, STATUS_CADASTRO.REJEITADO)

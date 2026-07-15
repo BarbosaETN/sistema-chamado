@@ -8,7 +8,12 @@ class Usuario extends Model {
   static associate(models) {
     Usuario.hasMany(models.Chamado, {
       foreignKey: "usuarioId",
-      as: "chamados",
+      as: "chamadosSolicitados",
+    });
+
+    Usuario.hasMany(models.Chamado, {
+      foreignKey: "tecnicoId",
+      as: "chamadosAtendidos",
     });
   }
 }

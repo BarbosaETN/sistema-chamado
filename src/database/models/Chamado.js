@@ -9,6 +9,11 @@ class Chamado extends Model {
       foreignKey: "usuarioId",
       as: "usuario",
     });
+
+    Chamado.belongsTo(models.Usuario, {
+      foreignKey: "tecnicoId",
+      as: "tecnico",
+    });
   }
 }
 
