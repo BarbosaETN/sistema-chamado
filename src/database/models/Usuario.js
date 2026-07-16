@@ -1,19 +1,19 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../config/database.js";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../../config/database.js';
 import STATUS_CADASTRO, {
   STATUS_CADASTRO_VALUES,
-} from "../../constants/statusCadastro.js";
+} from '../../constants/statusCadastro.js';
 
 class Usuario extends Model {
   static associate(models) {
     Usuario.hasMany(models.Chamado, {
-      foreignKey: "usuarioId",
-      as: "chamadosSolicitados",
+      foreignKey: 'usuarioId',
+      as: 'chamadosSolicitados',
     });
 
     Usuario.hasMany(models.Chamado, {
-      foreignKey: "tecnicoId",
-      as: "chamadosAtendidos",
+      foreignKey: 'tecnicoId',
+      as: 'chamadosAtendidos',
     });
   }
 }
@@ -59,8 +59,8 @@ Usuario.init(
   },
   {
     sequelize,
-    modelName: "Usuario",
-    tableName: "usuarios",
+    modelName: 'Usuario',
+    tableName: 'usuarios',
   },
 );
 

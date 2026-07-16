@@ -1,18 +1,23 @@
-import { Model, DataTypes } from "sequelize";
-import sequelize from "../../config/database.js";
-import STATUS, { STATUS_VALUES } from "../../constants/status.js";
-import PRIORIDADE, { PRIORIDADE_VALUES } from "../../constants/prioridade.js";
+import { Model, DataTypes } from 'sequelize';
+import sequelize from '../../config/database.js';
+import STATUS, { STATUS_VALUES } from '../../constants/status.js';
+import PRIORIDADE, { PRIORIDADE_VALUES } from '../../constants/prioridade.js';
 
 class Chamado extends Model {
   static associate(models) {
     Chamado.belongsTo(models.Usuario, {
-      foreignKey: "usuarioId",
-      as: "usuario",
+      foreignKey: 'usuarioId',
+      as: 'usuario',
     });
 
     Chamado.belongsTo(models.Usuario, {
-      foreignKey: "tecnicoId",
-      as: "tecnico",
+      foreignKey: 'tecnicoId',
+      as: 'tecnico',
+    });
+
+    Chamado.belongsTo(models.Categoria, {
+      foreignKey: 'categoriaId',
+      as: 'categoria',
     });
   }
 }
@@ -60,8 +65,8 @@ Chamado.init(
   },
   {
     sequelize,
-    modelName: "Chamado",
-    tableName: "chamados",
+    modelName: 'Chamado',
+    tableName: 'chamados',
   },
 );
 

@@ -8,7 +8,7 @@ export default function authorize(...cargosPermitidos) {
         }   
 
         if (!cargosPermitidos.includes(req.usuario.cargo)) {
-            new next(new ForbiddenError('Você não possui permissão para realizar essa ação'));
+            return next(new ForbiddenError('Você não possui permissão para realizar essa ação'));
         }
 
         next();

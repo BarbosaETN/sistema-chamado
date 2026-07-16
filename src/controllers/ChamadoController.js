@@ -8,6 +8,21 @@ class ChamadoController extends Controller {
     super(chamadoService);
   }
 
+  async criarNovo(req, res, next) {
+      try {
+          console.log(req.usuario);
+
+          const chamado = await this.service.criarRegistro(
+              req.body,
+              req.usuario.id
+          );
+
+          return res.status(201).json(chamado);
+      } catch (error) {
+          next(error);
+      }
+  }  
+
   async assumir(req, res, next) {
     try {
       const { id } = req.params;
