@@ -15,6 +15,11 @@ class Usuario extends Model {
       foreignKey: 'tecnicoId',
       as: 'chamadosAtendidos',
     });
+
+    Usuario.hasMany(models.Comentario, {
+      foreignKey: 'usuarioId',
+      as: 'comentarios',
+    });
   }
 }
 
