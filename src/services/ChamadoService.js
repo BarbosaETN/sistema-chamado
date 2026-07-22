@@ -1,14 +1,17 @@
-import Service from './Service.js';
-import CategoriaService from './CategoriaService.js'
-import STATUS, { STATUS_VALUES } from '../constants/status.js';
-import ValidationError from '../errors/ValidationError.js';
-import models from '../database/models/index.js';
+import Service from "./Service.js";
+import CategoriaService from "./CategoriaService.js";
+import HistoricoChamadoService from "./HistoricoChamadoService.js";
+import HISTORICO_ACAO from "../constants/historicoAcao.js";
+import STATUS, { STATUS_VALUES } from "../constants/status.js";
+import ValidationError from "../errors/ValidationError.js";
+import models from "../database/models/index.js";
 
 class ChamadoService extends Service {
   constructor() {
-    super('Chamado');
+    super("Chamado");
 
     this.categoriaService = new CategoriaService();
+    this.historicoService = new HistoricoChamadoService();
   }
 
   async criarRegistro(dados, ususarioId) {
@@ -16,37 +19,51 @@ class ChamadoService extends Service {
     dados.usuarioId = ususarioId;
 
     if (!STATUS_VALUES.includes(dados.status)) {
-      throw new ValidationError('Status inválido');
+      throw new ValidationError("Status inválido");
     }
 
-    await this.categoriaService.obterRegistroPorId(
-        dados.categoriaId
-    );
-    
+    await this.categoriaService.obterRegistroPorId(dados.categoriaId);
+
     console.log(dados);
 
-    return await super.criarRegistro(dados);
+    const chamado = await super.criarRegistro(dados);
+
+    await this.historicoService.registrar({
+      chamadoId: chamado.id,
+      usuarioId: chamado.usuarioId,
+      acao: HISTORICO_ACAO.CRIADO,
+      descricao: "Chamado criado.",
+    });
+
+    return chamado;
   }
 
   async atualizarRegistro(id, dados) {
-  if (dados.status && !STATUS_VALUES.includes(dados.status)) {
-    throw new ValidationError('Status inválido');
-  }
+    if (dados.status && !STATUS_VALUES.includes(dados.status)) {
+      throw new ValidationError("Status inválido");
+    }
 
-  return await super.atualizarRegistro(id, dados);
+    return await super.atualizarRegistro(id, dados);
   }
 
   async assumirChamado(id, tecnicoId) {
     const chamado = await this.obterRegistroPorId(id);
 
-    if (chamado.tecnicoId){
-      throw new ValidationError("Este chamado já foi assumido.")
+    if (chamado.tecnicoId) {
+      throw new ValidationError("Este chamado já foi assumido.");
     }
 
     chamado.tecnicoId = tecnicoId;
     chamado.status = STATUS.EM_ANDAMENTO;
 
     await chamado.save();
+
+    await this.historicoService.registrar({
+      chamadoId: chamado.id,
+      usuarioId: tecnicoId,
+      acao: HISTORICO_ACAO.ASSUMIDO,
+      descricao: 'Chamado assumido pelo técnico.',
+    });    
 
     return chamado;
   }
@@ -55,40 +72,58 @@ class ChamadoService extends Service {
     const chamado = await this.obterRegistroPorId(id);
 
     if (chamado.status !== STATUS.EM_ANDAMENTO) {
-      throw new ValidationError("Somente chamados em andamento podem ser resolvidos.")
+      throw new ValidationError(
+        "Somente chamados em andamento podem ser resolvidos.",
+      );
     }
-    
+
     chamado.status = STATUS.RESOLVIDO;
-    
+
     await chamado.save();
+
+    await this.historicoService.registrar({
+      chamadoId: chamado.id,
+      usuarioId: chamado.tecnicoId,
+      acao: HISTORICO_ACAO.RESOLVIDO,
+      descricao: 'Chamado resolvido.',
+    });    
 
     return chamado;
   }
-  
+
   async fecharChamado(id) {
     const chamado = await this.obterRegistroPorId(id);
 
-    if (chamado.status !== STATUS.RESOLVIDO){
-      throw new ValidationError("Somente chamados resolvidos podem ser fechados.")
+    if (chamado.status !== STATUS.RESOLVIDO) {
+      throw new ValidationError(
+        "Somente chamados resolvidos podem ser fechados.",
+      );
     }
-    
+
     chamado.status = STATUS.FECHADO;
 
     await chamado.save();
+
+    await this.historicoService.registrar({
+      chamadoId: chamado.id,
+      usuarioId: chamado.tecnicoId,
+      acao: HISTORICO_ACAO.FECHADO,
+      descricao: 'Chamado fechado.',
+    });    
 
     return chamado;
   }
 
   async obterRegistros() {
-      return await this.model.findAll({
-          include: [
-              {
-                  model: models.Categoria,
-                  as: 'categoria',
-              },
-          ],
-      });
-  }  
+    return await this.model.findAll({
+      include: [
+        {
+          model: models.Categoria,
+          as: "categoria",
+        },
+      ],
+    });
+  }
 }
 
 export default ChamadoService;

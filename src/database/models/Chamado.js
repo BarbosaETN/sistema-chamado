@@ -24,6 +24,11 @@ class Chamado extends Model {
       foreignKey: 'chamadoId',
       as: 'comentarios'
     });
+
+    Chamado.hasMany(models.HistoricoChamado, {
+      foreignKey: 'chamadoId',
+      as: 'historico'
+    });
   }
 }
 

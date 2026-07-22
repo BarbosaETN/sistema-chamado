@@ -5,6 +5,7 @@ import UsuarioService from "./UsuarioService.js";
 import ValidationError from "../errors/ValidationError.js";
 
 import STATUS from "../constants/status.js";
+import HISTORICO_ACAO from "../constants/historicoAcao.js";
 
 class ComentarioService extends Service {
   constructor() {
@@ -31,7 +32,16 @@ class ComentarioService extends Service {
 
     await this.usuarioService.obterRegistroPorId(dados.usuarioId);
 
-    return await super.criarRegistro(dados);
+    const comentario = await super.criarRegistro(dados);
+
+    await this.historicoService.registrar({
+      chamadoId: comentario.chamadoId,
+      usuarioId: comentario.usuarioId,
+      acao: HISTORICO_ACAO.COMENTARIO_ADICIONADO,
+      descricao: 'Comentário adicionado ao chamado.',
+    });    
+
+    return comentario;
   }
 
   async listarPorChamado(chamadoId) {
