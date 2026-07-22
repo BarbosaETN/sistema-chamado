@@ -1,6 +1,6 @@
 import { DataTypes, Model } from 'sequelize';
-import sequelize from '../../config/database';
-import { HISTORICO_ACAO_VALUES } from '../../constants/historicoAcao';
+import sequelize from '../../config/database.js';
+import { HISTORICO_ACAO_VALUES } from '../../constants/historicoAcao.js';
 
 class HistoricoChamado extends Model {
     static associate(models) {

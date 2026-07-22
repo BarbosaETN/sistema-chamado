@@ -36,7 +36,7 @@ export default {
       },
 
       acao: {
-        type: Sequelize.ENUM(...HISTORICO_ACAO),
+        type: Sequelize.ENUM(...Object.values(HISTORICO_ACAO)),
         allowNull: false,
       },
 
