@@ -73,7 +73,12 @@ class ChamadoService extends Service {
       ];
     }
 
-    return await this.model.findAll({
+    const page = Number(filtros.page) || 1;
+    const limit = Number(filtros.limit) || 10;
+    
+    const offset = (page - 1) * limit;
+
+    return await this.model.findAndCountAll({
       where,
       include: [
         {
@@ -89,6 +94,8 @@ class ChamadoService extends Service {
         },
       ],
       order: [['createdAt', 'DESC']],
+      limit,
+      offset
     });
   }
 
