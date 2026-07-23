@@ -1,7 +1,7 @@
-import Controller from './Controller.js';
-import ChamadoService from '../services/ChamadoService.js';
+import Controller from "./Controller.js";
+import ChamadoService from "../services/ChamadoService.js";
 
-const chamadoService = new ChamadoService()
+const chamadoService = new ChamadoService();
 
 class ChamadoController extends Controller {
   constructor() {
@@ -9,19 +9,29 @@ class ChamadoController extends Controller {
   }
 
   async criarNovo(req, res, next) {
-      try {
-          console.log(req.usuario);
+    try {
+      console.log(req.usuario);
 
-          const chamado = await this.service.criarRegistro(
-              req.body,
-              req.usuario.id
-          );
+      const chamado = await this.service.criarRegistro(
+        req.body,
+        req.usuario.id,
+      );
 
-          return res.status(201).json(chamado);
-      } catch (error) {
-          next(error);
-      }
-  }  
+      return res.status(201).json(chamado);
+    } catch (error) {
+      next(error);
+    }
+  }
+
+  async listarRegistros(req, res, next) {
+    try {
+      const chamado = await this.service.listarRegistros(req.query);
+
+      return res.status(200).json(chamado);
+    } catch (error) {
+      next(error);
+    }
+  }
 
   async assumir(req, res, next) {
     try {
@@ -29,33 +39,33 @@ class ChamadoController extends Controller {
 
       const chamado = await this.service.assumirChamado(id, req.usuario.id);
 
-      return res.status(200).json(chamado)      
+      return res.status(200).json(chamado);
     } catch (error) {
-      next(error)  
+      next(error);
     }
   }
-  
+
   async resolver(req, res, next) {
     try {
       const { id } = req.params;
 
       const chamado = await this.service.resolverChamado(id);
 
-      return res.status(200).json(chamado)      
+      return res.status(200).json(chamado);
     } catch (error) {
-      next(error)  
+      next(error);
     }
   }
-  
+
   async fechar(req, res, next) {
     try {
       const { id } = req.params;
 
       const chamado = await this.service.fecharChamado(id);
 
-      return res.status(200).json(chamado)      
+      return res.status(200).json(chamado);
     } catch (error) {
-      next(error)  
+      next(error);
     }
   }
 }

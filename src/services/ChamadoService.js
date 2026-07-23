@@ -5,6 +5,7 @@ import HISTORICO_ACAO from "../constants/historicoAcao.js";
 import STATUS, { STATUS_VALUES } from "../constants/status.js";
 import ValidationError from "../errors/ValidationError.js";
 import models from "../database/models/index.js";
+import { Op  } from 'sequelize';
 
 class ChamadoService extends Service {
   constructor() {
@@ -36,6 +37,59 @@ class ChamadoService extends Service {
     });
 
     return chamado;
+  }
+
+  async listarRegistros(filtros = {}){
+    const where = {};
+
+    if (filtros.status) {
+      where.status = filtros.status;
+    }
+
+    if (filtros.prioridade) {
+      where.prioridade = filtros.prioridade;
+    }
+
+    if (filtros.categoriaId) {
+      where.categoriaId = filtros.categoriaId;
+    }
+
+    if (filtros.tecnicoId) {
+      where.tecnicoId = filtros.tecnicoId;
+    }
+
+    if (filtros.busca) {
+      where[Op.or] = [
+        {
+          titulo: {
+            [Op.like]: `%${filtros.busca}%`,
+          },
+        },
+        {
+          descricao: {
+            [Op.like]: `%${filtros.busca}%`,
+          },
+        },
+      ];
+    }
+
+    return await this.model.findAll({
+      where,
+      include: [
+        {
+          association: 'categoria',
+        },
+        {
+          association: 'tecnico',
+          attributes: ['id', 'nome'],
+        },
+        {
+          association: 'usuario',
+          attributes: ['id', 'nome'],
+        },
+      ],
+      order: [['createdAt', 'DESC']],
+    });
   }
 
   async atualizarRegistro(id, dados) {
