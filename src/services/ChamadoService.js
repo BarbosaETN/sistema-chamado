@@ -5,7 +5,7 @@ import HISTORICO_ACAO from "../constants/historicoAcao.js";
 import STATUS, { STATUS_VALUES } from "../constants/status.js";
 import ValidationError from "../errors/ValidationError.js";
 import models from "../database/models/index.js";
-import { Op  } from 'sequelize';
+import { Op } from "sequelize";
 
 class ChamadoService extends Service {
   constructor() {
@@ -39,7 +39,7 @@ class ChamadoService extends Service {
     return chamado;
   }
 
-  async listarRegistros(filtros = {}){
+  async listarRegistros(filtros = {}) {
     const where = {};
 
     if (filtros.status) {
@@ -73,30 +73,38 @@ class ChamadoService extends Service {
       ];
     }
 
-    const page = Number(filtros.page) || 1;
-    const limit = Number(filtros.limit) || 10;
-    
-    const offset = (page - 1) * limit;
+    const page = Math.max(Number(filtros.page) || 1, 1);
+    const limit = Math.min(Math.max(Number(filtros.limit) || 10, 1), 100);
 
-    return await this.model.findAndCountAll({
+    const offset = (page - 1) * limit;
+    
+    const { count, rows } = await this.model.findAndCountAll({
       where,
       include: [
         {
-          association: 'categoria',
+          association: "usuario",
+          attributes: ["id", "nome"],
         },
         {
-          association: 'tecnico',
-          attributes: ['id', 'nome'],
+          association: "tecnico",
+          attributes: ["id", "nome"],
         },
         {
-          association: 'usuario',
-          attributes: ['id', 'nome'],
+          association: "categoria",
         },
       ],
-      order: [['createdAt', 'DESC']],
+      order: [["createdAt", "DESC"]],
       limit,
-      offset
+      offset,
     });
+
+    return {
+      total: count,
+      totalPaginas: Math.ceil(count / limit),
+      paginaAtual: page,
+      limite: limit,
+      chamados: rows,
+    };
   }
 
   async atualizarRegistro(id, dados) {
@@ -123,8 +131,8 @@ class ChamadoService extends Service {
       chamadoId: chamado.id,
       usuarioId: tecnicoId,
       acao: HISTORICO_ACAO.ASSUMIDO,
-      descricao: 'Chamado assumido pelo técnico.',
-    });    
+      descricao: "Chamado assumido pelo técnico.",
+    });
 
     return chamado;
   }
@@ -146,8 +154,8 @@ class ChamadoService extends Service {
       chamadoId: chamado.id,
       usuarioId: chamado.tecnicoId,
       acao: HISTORICO_ACAO.RESOLVIDO,
-      descricao: 'Chamado resolvido.',
-    });    
+      descricao: "Chamado resolvido.",
+    });
 
     return chamado;
   }
@@ -169,8 +177,8 @@ class ChamadoService extends Service {
       chamadoId: chamado.id,
       usuarioId: chamado.tecnicoId,
       acao: HISTORICO_ACAO.FECHADO,
-      descricao: 'Chamado fechado.',
-    });    
+      descricao: "Chamado fechado.",
+    });
 
     return chamado;
   }
