@@ -78,22 +78,38 @@ class ChamadoService extends Service {
 
     const offset = (page - 1) * limit;
     
+    const camposOrdenacao = [
+      'createdAt',
+      'titulo',
+      'status',
+      'prioridade'
+    ]
+
+    const sortBy = camposOrdenacao.includes(filtros.sortBy)
+      ? filtros.sortBy
+      : 'createdAt';
+
+    const order =
+      filtros.order?.toUpperCase() === 'ASC'
+        ? 'ASC'
+        : 'DESC'
+
     const { count, rows } = await this.model.findAndCountAll({
       where,
       include: [
         {
-          association: "usuario",
-          attributes: ["id", "nome"],
+          association: 'usuario',
+          attributes: ['id', 'nome'],
         },
         {
-          association: "tecnico",
-          attributes: ["id", "nome"],
+          association: 'tecnico',
+          attributes: ['id', 'nome'],
         },
         {
-          association: "categoria",
+          association: 'categoria',
         },
       ],
-      order: [["createdAt", "DESC"]],
+      order: [[sortBy, order]],
       limit,
       offset,
     });
