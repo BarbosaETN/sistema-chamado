@@ -1,9 +1,9 @@
 import { fn, col } from 'sequelize';
 
-import STATUS from '../constants/status';
-import PRIORIDADE from '../constants/prioridade';
+import STATUS from '../constants/status.js';
+import PRIORIDADE from '../constants/prioridade.js';
 
-import Service from './Service';
+import Service from './Service.js';
 
 class DashboardService extends Service {
   constructor() {
@@ -13,9 +13,9 @@ class DashboardService extends Service {
   async obterResumo() {
     return {
       totalChamados: await this.model.count(),
-      status: await this.model.obterResumoStatus(),
-      prioridades: await this.model.obterResumoPrioridades(),
-      categorias: await this.model.obterResumocategorias(),
+      status: await this.obterResumoStatus(),
+      prioridades: await this.obterResumoPrioridades(),
+      categorias: await this.obterResumocategorias(),
     };
   }
 
@@ -96,17 +96,18 @@ class DashboardService extends Service {
   async obterResumocategorias() {
     return await this.model.findAll({
         attributes: [
-            'categoriaId',
-            [fn('COUNT', col('id')), 'total'],
+           [col('categoria.id'), 'categoriaId'],
+           [col('categoria.nome'), 'categoriaNome'],
+           [fn('COUNT', col('Chamado.id')), 'total'],
         ],
         include: [
             {
                 association: 'categoria',
-                attributes: ['id', 'nome'],
+                attributes: [],
             },
         ],
-        group: ['categoria.id', 'categoria'],
-        raw: false,
+        group: ['categoria.id', 'categoria.nome'],
+        raw: true,
     });
   }
 }
