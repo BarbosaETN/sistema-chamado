@@ -1,4 +1,4 @@
-import authSchemas from "./schemas/authSchemas.js";
+import authSchema from "./schemas/authSchema.js";
 import usuarioSchema from "./schemas/usuarioSchema.js";
 
 export default {
@@ -11,7 +11,7 @@ export default {
   },
 
   schemas: {
-    ...authSchemas,
+    ...authSchema,
     ...usuarioSchema,
   },
 };
