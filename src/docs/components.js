@@ -1,3 +1,6 @@
+import authSchemas from "./schemas/authSchemas.js";
+import usuarioSchema from "./schemas/usuarioSchema.js";
+
 export default {
   securitySchemes: {
     bearerAuth: {
@@ -7,5 +10,8 @@ export default {
     },
   },
 
-  schemas: {},
+  schemas: {
+    ...authSchemas,
+    ...usuarioSchema,
+  },
 };

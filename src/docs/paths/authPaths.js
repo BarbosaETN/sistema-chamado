@@ -14,21 +14,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                email: {
-                  type: "string",
-                  example: "admin@email.com",
-                },
-
-                senha: {
-                  type: "string",
-                  example: "123456",
-                },
-              },
-
-              required: ["email", "senha"],
+              $ref: "#/components/schemas/LoginRequest",
             },
           },
         },
@@ -37,6 +23,14 @@ export default {
       responses: {
         200: {
           description: "Login realizado com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/LoginResponse",
+              },
+            },
+          },
         },
 
         401: {
