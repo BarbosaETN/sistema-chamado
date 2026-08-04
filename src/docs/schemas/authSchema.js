@@ -1,3 +1,5 @@
+import CARGO, { CARGO_VALUES } from "../../constants/cargo";
+
 export default {
   LoginRequest: {
     type: "object",
@@ -47,7 +49,8 @@ export default {
 
           cargo: {
             type: "string",
-            example: "ADMIN",
+            enum: CARGO_VALUES,
+            example: CARGO.USUARIO,
           },
         },
       },

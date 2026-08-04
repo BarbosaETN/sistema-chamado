@@ -34,6 +34,18 @@ export default {
       responses: {
         200: {
           description: 'Histórico retornado com sucesso.',
+
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+
+                items: {
+                  $ref: "#/components/schemas/HistoricoResponse"
+                },
+              },
+            },
+          },
         },
 
         401: {

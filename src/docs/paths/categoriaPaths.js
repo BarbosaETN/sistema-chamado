@@ -16,6 +16,18 @@ export default {
       responses: {
         200: {
           description: "Lista de categorias retornada com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+
+                items: {
+                  $ref: "#/components/schemas/CategoriaResponse"
+                }
+              }
+            }
+          }
         },
 
         401: {
@@ -47,16 +59,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                nome: {
-                  type: "string",
-                  example: "Hardware",
-                },
-              },
-
-              required: ["nome"],
+              $ref: "#/components/schemas/CategoriaRequest"
             },
           },
         },
@@ -65,6 +68,14 @@ export default {
       responses: {
         201: {
           description: "Categoria criada com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CategoriaResponse"
+              },
+            },
+          },
         },
 
         400: {
@@ -124,6 +135,14 @@ export default {
       responses: {
         200: {
           description: "Categoria encontrada com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CategoriaResponse"
+              },
+            },
+          },
         },
 
         401: {
@@ -176,16 +195,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                nome: {
-                  type: "string",
-                  example: "Hardware",
-                },
-              },
-
-              required: ["nome"],
+              $ref: "#/components/schemas/CategoriaRequest"
             },
           },
         },
@@ -194,6 +204,14 @@ export default {
       responses: {
         200: {
           description: "Categoria atualizada com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/CategoriaResponse"
+              },
+            },
+          },
         },
 
         400: {

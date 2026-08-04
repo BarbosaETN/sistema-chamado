@@ -1,3 +1,6 @@
+import CARGO, { CARGO_VALUES } from "../../constants/cargo";
+import { STATUS_CADASTRO_VALUES } from "../../constants/statusCadastro";
+
 export default {
   UsuarioRequest: {
     type: "object",
@@ -21,9 +24,9 @@ export default {
       cargo: {
         type: "string",
 
-        enum: ["USUARIO", "TECNICO", "ADMIN"],
+        enum: CARGO_VALUES,
 
-        example: "USUARIO",
+        example: CARGO.USUARIO,
       },
     },
 
@@ -52,17 +55,17 @@ export default {
       cargo: {
         type: "string",
 
-        enum: ["USUARIO", "TECNICO", "ADMIN"],
+        enum: CARGO_VALUES,
 
-        example: "USUARIO",
+        example: CARGO.USUARIO,
       },
 
       statusCadastro: {
         type: "string",
 
-        enum: ["Pendente", "Aprovado", "Rejeitado"],
+        enum: STATUS_CADASTRO_VALUES,
 
-        example: "Aprovado",
+        example: STATUS_CADASTRO_VALUES[0],
       },
     },
   },

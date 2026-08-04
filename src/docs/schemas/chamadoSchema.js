@@ -1,3 +1,6 @@
+import { PRIORIDADE_VALUES } from "../../constants/prioridade";
+import { STATUS_VALUES } from "../../constants/status";
+
 export default {
   ChamadoRequest: {
     type: "object",
@@ -21,9 +24,9 @@ export default {
       prioridade: {
         type: "string",
 
-        enum: ["Baixa", "Média", "Alta", "Crítica"],
+        enum: PRIORIDADE_VALUES,
 
-        example: "Alta",
+        example: PRIORIDADE_VALUES[2],
       },
 
       categoriaId: {
@@ -62,33 +65,35 @@ export default {
       status: {
         type: "string",
 
-        enum: ["Aberto", "Em andamento", "Resolvido", "Fechado"],
+        enum: STATUS_VALUES,
 
-        example: "Aberto",
+        example: STATUS_VALUES[0],
       },
 
       prioridade: {
         type: "string",
 
-        enum: ["Baixa", "Média", "Alta", "Crítica"],
+        enum: PRIORIDADE_VALUES,
 
-        example: "Alta",
+        example: PRIORIDADE_VALUES[2],
       },
 
-      categoriaId: {
-        type: "integer",
-        example: 1,
+      categoria: {
+        $ref: "#/components/schemas/CategoriaResponse"
       },
 
-      usuarioId: {
-        type: "integer",
-        example: 3,
+      usuario: {
+        $ref: "#/components/schemas/UsuarioResponse",
       },
 
-      tecnicoId: {
-        type: "integer",
+      tecnico: {
+        allOf: [
+          {
+            $ref: "#/components/schemas/UsuarioResponse",
+          },
+        ],
+
         nullable: true,
-        example: null,
       },
     },
   },

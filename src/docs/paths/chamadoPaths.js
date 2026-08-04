@@ -149,6 +149,18 @@ export default {
       responses: {
         200: {
           description: "Lista de chamados retornada com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+
+                items: {
+                  $ref: "#/components/schemas/ChamadoResponse"
+                },
+              },
+            },
+          },
         },
 
         401: {
@@ -166,7 +178,7 @@ export default {
 
       summary: "Cria um novo chamado",
 
-      description: "Criad um novo chamado de suporte técnico.",
+      description: "Cria um novo chamado de suporte técnico.",
 
       security: [
         {
@@ -180,43 +192,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                titulo: {
-                  type: "string",
-                  example: "Impressora sem tinta",
-                },
-
-                descricao: {
-                  type: "string",
-                  example: "A impressora não imprime nenhuma página.",
-                },
-
-                setor: {
-                  type: "string",
-                  example: "Financeiro",
-                },
-
-                prioridade: {
-                  type: "string",
-                  enum: ["Baixa", "Média", "Alta", "Critica"],
-                  example: "Alta",
-                },
-
-                categoriaId: {
-                  type: "integer",
-                  example: 1,
-                },
-              },
-
-              required: [
-                "titulo",
-                "descricao",
-                "setor",
-                "prioridade",
-                "categoriaId",
-              ],
+              $ref: '#/components/schemas/ChamadoRequest',
             },
           },
         },
@@ -225,6 +201,14 @@ export default {
       responses: {
         201: {
           description: "Chamado criado com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schema/ChamadoResponse"
+              },
+            },
+          },
         },
 
         400: {
@@ -280,6 +264,14 @@ export default {
       responses: {
         200: {
           description: "Chamado encontrado com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ChamadoResponse"
+              }
+            }
+          }
         },
 
         401: {
@@ -332,35 +324,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                titulo: {
-                  type: "string",
-                  example: "Impressora sem tinta",
-                },
-
-                descricao: {
-                  type: "string",
-                  example: "A impressora não imprime nenhuma página.",
-                },
-
-                setor: {
-                  type: "string",
-                  example: "Financeiro",
-                },
-
-                prioridade: {
-                  type: "string",
-                  enum: ["Baixa", "Média", "Alta", "Crítica"],
-                  example: "Alta",
-                },
-
-                categoriaId: {
-                  type: "integer",
-                  example: 1,
-                },
-              },
+              $ref: '#/components/schemas/ChamadoRequest',
             },
           },
         },
@@ -369,6 +333,14 @@ export default {
       responses: {
         200: {
           description: "Chamado atualizado com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ChamadoResponse"
+              }
+            }
+          }
         },
 
         400: {

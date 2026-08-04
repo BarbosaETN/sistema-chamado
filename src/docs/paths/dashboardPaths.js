@@ -17,6 +17,14 @@ export default {
       responses: {
         200: {
           description: 'Resumo do dashboard retornado com sucesso.',
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/DashboarResponse"
+              }
+            }
+          }
         },
 
         401: {

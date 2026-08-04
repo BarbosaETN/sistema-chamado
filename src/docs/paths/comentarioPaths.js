@@ -36,16 +36,7 @@ export default {
         content: {
           "application/json": {
             schema: {
-              type: "object",
-
-              properties: {
-                texto: {
-                  type: "string",
-                  example: "Solicitação encaminhada para o setor responsável.",
-                },
-              },
-
-              required: ["texto"],
+              $ref: "#/components/schemas/ComentarioRequest"
             },
           },
         },
@@ -54,6 +45,14 @@ export default {
       responses: {
         201: {
           description: "Comentário criado com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                $ref: "#/components/schemas/ComentarioResponse"
+              },
+            },
+          },
         },
 
         400: {
@@ -116,6 +115,18 @@ export default {
       responses: {
         200: {
           description: "Comentários retornados com sucesso.",
+
+          content: {
+            "application/json": {
+              schema: {
+                type: "array",
+
+                items: {
+                  $ref: "#/components/schemas/ComentarioResponse"
+                }
+              }
+            }
+          }
         },
 
         401: {
