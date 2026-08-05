@@ -1,66 +1,74 @@
-# 🎫 Sistema de Chamados
+# 📚 Sistema de Chamados API
 
-Sistema de gerenciamento de chamados (Help Desk) desenvolvido para praticar arquitetura em Node.js utilizando Express e Sequelize.
+API REST desenvolvida em Node.js para gerenciamento de chamados de suporte técnico.
 
-O objetivo do projeto é permitir o gerenciamento de chamados técnicos, categorias, usuários, técnicos e comentários por meio de uma API REST.
+O projeto foi desenvolvido com foco em boas práticas de arquitetura, autenticação JWT, documentação OpenAPI (Swagger) e organização em camadas utilizando Services, Controllers e Models.
 
 ---
 
-## 🚀 Tecnologias
+# 🚀 Funcionalidades
+
+- Autenticação com JWT
+- Autorização por cargos
+- CRUD de usuários
+- Aprovação e rejeição de usuários
+- CRUD de chamados
+- Assumir chamados
+- Resolver chamados
+- Fechar chamados
+- CRUD de categorias
+- Comentários em chamados
+- Histórico automático de alterações
+- Dashboard com estatísticas
+- Filtros
+- Busca textual
+- Paginação
+- Ordenação
+- Documentação Swagger
+- Seeders para ambiente de testes
+
+---
+
+# 🛠 Tecnologias
 
 - Node.js
-- Express.js
-- Sequelize
+- Express
+- Sequelize ORM
 - MySQL
-- Railway (Banco de Dados)
-- Dotenv
+- JWT
+- Bcrypt
+- Swagger (OpenAPI)
+- Docker
+- ESLint
+- Prettier
 
 ---
 
-## 📚 Conceitos aplicados
-
-- Arquitetura em camadas
-- Programação Orientada a Objetos (POO)
-- API REST
-- CRUD completo
-- Migrations
-- Models
-- Relacionamentos entre tabelas
-- Tratamento de erros
-- Reutilização de código com Service e Controller
-
----
-
-## 📂 Estrutura do projeto
+# 📂 Estrutura do projeto
 
 ```
 src
 ├── config
+├── constants
 ├── controllers
 ├── database
-│   ├── migrations
-│   ├── models
-│   └── seeders
+├── docs
+├── errors
+├── middlewares
+├── models
 ├── routes
 ├── services
-├── utils
-└── app.js
+└── utils
 ```
 
 ---
 
-## ⚙️ Instalação
+# ⚙️ Instalação
 
-Clone o repositório
+Clone o projeto
 
 ```bash
 git clone <url-do-repositorio>
-```
-
-Entre na pasta
-
-```bash
-cd sistema-chamados
 ```
 
 Instale as dependências
@@ -69,20 +77,18 @@ Instale as dependências
 npm install
 ```
 
-Configure as variáveis de ambiente
-
-```env
-DB_HOST=
-DB_PORT=
-DB_NAME=
-DB_USER=
-DB_PASSWORD=
-```
+Configure o arquivo `.env`.
 
 Execute as migrations
 
 ```bash
 npx sequelize-cli db:migrate
+```
+
+Popule o banco com dados de teste
+
+```bash
+npx sequelize-cli db:seed:all
 ```
 
 Inicie a aplicação
@@ -93,85 +99,78 @@ npm run dev
 
 ---
 
-## 📌 Funcionalidades
+# 👤 Usuários para teste
 
-### Chamados
+| Perfil | Email | Senha |
+|--------|-------|-------|
+| Administrador | admin@email.com | admin123 |
+| Técnico | tecnico@email.com | tecnico123 |
+| Usuário | usuario@email.com | usuario123 |
 
-- Criar chamado
-- Listar chamados
-- Buscar chamado por ID
-- Atualizar chamado
-- Excluir chamado
-
-### Técnicos
-
-- CRUD completo
-
-### Usuários
-
-- CRUD completo
-
-### Categorias
-
-- CRUD completo
-
-### Comentários
-
-- CRUD completo
+Todos os usuários já são criados com o status **Aprovado**.
 
 ---
 
-## 🛠 Endpoints
+# 📁 Categorias iniciais
 
-### Chamados
-
-| Método | Endpoint |
-|---------|----------|
-| GET | /chamados |
-| GET | /chamados/:id |
-| POST | /chamados |
-| PUT | /chamados/:id |
-| DELETE | /chamados/:id |
-
-Repita para as demais entidades.
+- Hardware
+- Software
+- Rede
+- Impressoras
 
 ---
 
-## 💡 Arquitetura
+# 📖 Documentação da API
 
-O projeto foi desenvolvido utilizando uma arquitetura em camadas:
+Após iniciar a aplicação, a documentação estará disponível em:
 
 ```
-Routes
-   ↓
-Controllers
-   ↓
-Services
-   ↓
-Models (Sequelize)
-   ↓
-Banco de Dados
+http://localhost:3000/docs
 ```
 
-Toda a lógica de negócio permanece na camada de Service, enquanto os Controllers apenas recebem as requisições HTTP e retornam as respostas.
+Através do Swagger é possível:
+
+- autenticar utilizando JWT;
+- testar todos os endpoints;
+- visualizar exemplos de requisição e resposta;
+- consultar a documentação completa da API.
 
 ---
 
-## 🎯 Objetivo
+# 🔐 Fluxo recomendado para testes
 
-Este projeto foi desenvolvido para consolidar conhecimentos em:
-
-- Node.js
-- Express
-- Sequelize
-- MySQL
-- APIs REST
-- Arquitetura em camadas
-- POO
-- Boas práticas de organização de código
+1. Faça login utilizando o administrador.
+2. Copie o token JWT.
+3. Clique em **Authorize** no Swagger.
+4. Cole o token.
+5. Crie um novo usuário.
+6. Aprove o usuário criado.
+7. Faça login com o novo usuário.
+8. Crie um chamado.
+9. Faça login com o técnico.
+10. Assuma o chamado.
+11. Resolva o chamado.
+12. Feche o chamado.
+13. Consulte o histórico.
+14. Consulte o dashboard.
 
 ---
 
-## 📄 Licença
+# 📌 Arquitetura
 
-Projeto desenvolvido para fins de estudo.
+O projeto segue uma arquitetura em camadas composta por:
+
+- Controllers
+- Services
+- Models
+- Middlewares
+- Constants
+- Documentação OpenAPI
+
+A lógica de negócio é concentrada na camada de Services, enquanto os Controllers ficam responsáveis apenas pelo tratamento das requisições e respostas.
+
+---
+
+# 👨‍💻 Autor
+
+Desenvolvido por **Estevan Barbosa**.
