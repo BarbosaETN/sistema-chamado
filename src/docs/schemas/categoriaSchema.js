@@ -7,6 +7,11 @@ export default {
         type: 'string',
         example: 'Hardware',
       },
+
+      descricao: {
+        type: 'string',
+        example: 'Equipamentos e componentes físicos.'
+      }
     },
 
     required: ['nome'],
@@ -25,6 +30,12 @@ export default {
         type: 'string',
         example: 'Hardware',
       },
+
+      descricao: {
+        type: 'string',
+        nullable: true,
+        example: 'Equipamentos e componentes físicos.'
+      }
     },
   },
 };

@@ -1,11 +1,11 @@
 export default {
-  "/usuarios": {
+  '/usuarios': {
     get: {
-      tags: ["Usuários"],
+      tags: ['Usuários'],
 
-      summary: "Lista todos os usuários",
+      summary: 'Lista todos os usuários',
 
-      description: "Retorna uma lista com todos os usuários cadastrados.",
+      description: 'Retorna uma lista com todos os usuários cadastrados.',
 
       security: [
         {
@@ -15,142 +15,89 @@ export default {
 
       responses: {
         200: {
-          description: "Lista de usuários retornada com sucesso.",
+          description: 'Lista de usuários retornada com sucesso.',
 
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                type: "array",
+                type: 'array',
 
                 items: {
-                  $ref: "#/components/schemas/UsuarioResponse"
-                }
-              }
-            }
-          }
+                  $ref: '#/components/schemas/UsuarioResponse',
+                },
+              },
+            },
+          },
         },
 
         401: {
-          description: "Token não informado ou inválido.",
+          description: 'Token não informado ou inválido.',
         },
 
         403: {
-          description: "Usuário sem permissão.",
+          description: 'Usuário sem permissão.',
         },
 
         500: {
-          description: "Erro interno do servidor.",
+          description: 'Erro interno do servidor.',
         },
       },
     },
 
     post: {
-      tags: ["Usuários"],
+      tags: ['Usuários'],
 
-      summary: "Cadastra um novo usuário.",
+      summary: 'Cadastra um novo usuário',
 
-      description: "Cria um novo usuário no sistema.",
+      description: 'Cria um novo usuário no sistema.',
 
       requestBody: {
         required: true,
 
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              $ref: "#/components/schemas/UsuarioRequest",
+              $ref: '#/components/schemas/UsuarioRequest',
             },
           },
         },
+      },
 
-        responses: {
-          200: {
-            description: "Usuário criado com sucesso.",
+      responses: {
+        201: {
+          description: 'Usuário criado com sucesso.',
 
-            content: {
-              "application/json": {
-                schema: {
-                  $ref: "#/components/schemas/UsuarioResponse",
-                },
+          content: {
+            'application/json': {
+              schema: {
+                $ref: '#/components/schemas/UsuarioResponse',
               },
             },
           },
-
-          400: {
-            description: "Dados inválidos.",
-          },
-
-          409: {
-            description: "E-mail já cadastrado.",
-          },
-
-          500: {
-            description: "Erro interno do servidor.",
-          },
-        },
-      },
-    },
-  },
-
-  "/usuarios/{id}/aprovar": {
-    patch: {
-      tags: ["Usuários"],
-
-      summary: "Aprova um usuário",
-
-      description: "Aprova o cadastro de um usuário no sistema.",
-
-      security: [
-        {
-          bearerAuth: [],
-        },
-      ],
-
-      parameters: [
-        {
-          name: "id",
-
-          in: "path",
-
-          required: true,
-
-          description: "ID do usuário.",
-
-          schema: {
-            type: "integer",
-            example: 1,
-          },
-        },
-      ],
-
-      responses: {
-        200: {
-          description: "Usuário aprovado com sucesso.",
         },
 
-        401: {
-          description: "Token não informado ou inválido.",
+        400: {
+          description: 'Dados inválidos.',
         },
 
-        403: {
-          description: "Apenas administradores podem aprovar usuários.",
-        },
-
-        404: {
-          description: "Usuário não encontrado.",
+        409: {
+          description: 'E-mail já cadastrado.',
         },
 
         500: {
-          description: "Erro interno do servidor.",
+          description: 'Erro interno do servidor.',
         },
       },
     },
   },
 
-  "/usuarios/{id}": {
+  '/usuarios/{id}': {
     get: {
-      tag: ["Usuários"],
+      tags: ['Usuários'],
 
-      summary: "Busca um usuário por id.",
+      summary: 'Busca um usuário por ID',
+
+      description: 'Retorna os dados de um usuário específico.',
 
       security: [
         {
@@ -160,16 +107,16 @@ export default {
 
       parameters: [
         {
-          name: "id",
+          name: 'id',
 
-          in: "path",
+          in: 'path',
 
           required: true,
 
-          description: "ID do usuário.",
+          description: 'ID do usuário.',
 
           schema: {
-            type: "integer",
+            type: 'integer',
             example: 1,
           },
         },
@@ -177,34 +124,37 @@ export default {
 
       responses: {
         200: {
-          description: "Usuário encontrado com sucesso.",
+          description: 'Usuário encontrado com sucesso.',
 
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: "#/components/schemas/UsuarioResponse"
-              }
-            }
-          }
+                $ref: '#/components/schemas/UsuarioResponse',
+              },
+            },
+          },
         },
-        404: {
-          description: "Usuário não encontrado.",
-        },
+
         401: {
-          description: "Token não informado ou inválido.",
+          description: 'Token não informado ou inválido.',
         },
+
+        404: {
+          description: 'Usuário não encontrado.',
+        },
+
         500: {
-          description: "Erro interno do servidor.",
+          description: 'Erro interno do servidor.',
         },
       },
     },
 
     put: {
-      tags: ["Usuários"],
+      tags: ['Usuários'],
 
-      summary: "Atualiza um usuário",
+      summary: 'Atualiza um usuário',
 
-      description: "Atualiza os dados de um usuário existente.",
+      description: 'Atualiza os dados de um usuário existente.',
 
       security: [
         {
@@ -214,13 +164,17 @@ export default {
 
       parameters: [
         {
-          name: "id",
-          in: "path",
+          name: 'id',
+
+          in: 'path',
+
           required: true,
-          description: "ID do usuário",
+
+          description: 'ID do usuário.',
+
           schema: {
-            type: "integer",
-            examle: 1,
+            type: 'integer',
+            example: 1,
           },
         },
       ],
@@ -229,9 +183,9 @@ export default {
         required: true,
 
         content: {
-          "application/json": {
+          'application/json': {
             schema: {
-              $ref: "#/components/schemas/UsuarioRequest"
+              $ref: '#/components/schemas/UsuarioRequest',
             },
           },
         },
@@ -239,41 +193,41 @@ export default {
 
       responses: {
         200: {
-          description: "Usuário atualizado com sucesso.",
+          description: 'Usuário atualizado com sucesso.',
 
           content: {
-            "application/json": {
+            'application/json': {
               schema: {
-                $ref: "#/components/schemas/UsuarioResponse"
-              }
-            }
-          }
+                $ref: '#/components/schemas/UsuarioResponse',
+              },
+            },
+          },
         },
 
         400: {
-          description: "Dados inválidos.",
+          description: 'Dados inválidos.',
         },
 
         401: {
-          description: "Token não informado ou inválido.",
+          description: 'Token não informado ou inválido.',
         },
 
         404: {
-          description: "Usuário não encotrado.",
+          description: 'Usuário não encontrado.',
         },
 
         500: {
-          description: "Erro interno do servidor.",
+          description: 'Erro interno do servidor.',
         },
       },
     },
 
     delete: {
-      tags: ["Usuários"],
+      tags: ['Usuários'],
 
-      summary: "Remove um usuário",
+      summary: 'Remove um usuário',
 
-      description: "Remove um usuário do sistema pelo ID.",
+      description: 'Remove um usuário do sistema pelo ID.',
 
       security: [
         {
@@ -283,16 +237,16 @@ export default {
 
       parameters: [
         {
-          name: "id",
+          name: 'id',
 
-          in: "path",
+          in: 'path',
 
           required: true,
 
-          description: "ID do usuário.",
+          description: 'ID do usuário.',
 
           schema: {
-            type: "integer",
+            type: 'integer',
             example: 1,
           },
         },
@@ -300,23 +254,133 @@ export default {
 
       responses: {
         200: {
-          description: "Usuário removido com sucesso.",
+          description: 'Usuário removido com sucesso.',
         },
 
         401: {
-          description: "Token não informado ou inválido.",
+          description: 'Token não informado ou inválido.',
         },
 
         403: {
-          description: "Usuário sem permissão.",
+          description: 'Usuário sem permissão.',
         },
 
         404: {
-          description: "Usuário não encontrado.",
+          description: 'Usuário não encontrado.',
         },
 
         500: {
-          description: "Erro interno do servidor.",
+          description: 'Erro interno do servidor.',
+        },
+      },
+    },
+  },
+
+  '/usuarios/{id}/aprovar': {
+    patch: {
+      tags: ['Usuários'],
+
+      summary: 'Aprova um usuário',
+
+      description: 'Aprova o cadastro de um usuário no sistema.',
+
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+
+      parameters: [
+        {
+          name: 'id',
+
+          in: 'path',
+
+          required: true,
+
+          description: 'ID do usuário.',
+
+          schema: {
+            type: 'integer',
+            example: 1,
+          },
+        },
+      ],
+
+      responses: {
+        200: {
+          description: 'Usuário aprovado com sucesso.',
+        },
+
+        401: {
+          description: 'Token não informado ou inválido.',
+        },
+
+        403: {
+          description: 'Apenas administradores podem aprovar usuários.',
+        },
+
+        404: {
+          description: 'Usuário não encontrado.',
+        },
+
+        500: {
+          description: 'Erro interno do servidor.',
+        },
+      },
+    },
+  },
+
+  '/usuarios/{id}/rejeitar': {
+    patch: {
+      tags: ['Usuários'],
+
+      summary: 'Rejeita um usuário',
+
+      description: 'Rejeita o cadastro de um usuário no sistema.',
+
+      security: [
+        {
+          bearerAuth: [],
+        },
+      ],
+
+      parameters: [
+        {
+          name: 'id',
+
+          in: 'path',
+
+          required: true,
+
+          description: 'ID do usuário.',
+
+          schema: {
+            type: 'integer',
+            example: 1,
+          },
+        },
+      ],
+
+      responses: {
+        200: {
+          description: 'Usuário rejeitado com sucesso.',
+        },
+
+        401: {
+          description: 'Token não informado ou inválido.',
+        },
+
+        403: {
+          description: 'Apenas administradores podem rejeitar usuários.',
+        },
+
+        404: {
+          description: 'Usuário não encontrado.',
+        },
+
+        500: {
+          description: 'Erro interno do servidor.',
         },
       },
     },
