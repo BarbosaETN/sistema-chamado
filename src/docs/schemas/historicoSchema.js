@@ -1,4 +1,4 @@
-import { HISTORICO_ACAO_VALUES } from "../../constants/historicoAcao";
+import { HISTORICO_ACAO_VALUES } from "../../constants/historicoAcao.js";
 
 export default {
   HistoricoResponse: {

@@ -1,5 +1,5 @@
-import CARGO, { CARGO_VALUES } from "../../constants/cargo";
-import { STATUS_CADASTRO_VALUES } from "../../constants/statusCadastro";
+import CARGO, { CARGO_VALUES } from "../../constants/cargo.js";
+import { STATUS_CADASTRO_VALUES } from "../../constants/statusCadastro.js";
 
 export default {
   UsuarioRequest: {

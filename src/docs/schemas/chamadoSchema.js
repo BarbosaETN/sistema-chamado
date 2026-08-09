@@ -1,5 +1,5 @@
-import { PRIORIDADE_VALUES } from "../../constants/prioridade";
-import { STATUS_VALUES } from "../../constants/status";
+import { PRIORIDADE_VALUES } from "../../constants/prioridade.js";
+import { STATUS_VALUES } from "../../constants/status.js";
 
 export default {
   ChamadoRequest: {

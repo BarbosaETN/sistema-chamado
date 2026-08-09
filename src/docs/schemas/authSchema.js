@@ -1,4 +1,4 @@
-import CARGO, { CARGO_VALUES } from "../../constants/cargo";
+import CARGO, { CARGO_VALUES } from "../../constants/cargo.js";
 
 export default {
   LoginRequest: {
