@@ -4,8 +4,9 @@ import usuarios from './usuariosRoute.js';
 import auth from './authRoute.js';
 import categorias from './categoriasRoute.js'
 import comentarios from './comentariosRoute.js';
-import historicos from './historicoChamadoRoute.js'
-import dashboard from './dashboardRoute.js'
+import historicos from './historicoChamadoRoute.js';
+import dashboard from './dashboardRoute.js';
+import health from './healthRoute.js';
 
 export default app => {
     app.use(express.json());
@@ -17,4 +18,5 @@ export default app => {
     app.use(comentarios);
     app.use(historicos);
     app.use(dashboard);
+    app.use(health);
 };
