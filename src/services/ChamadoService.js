@@ -25,8 +25,6 @@ class ChamadoService extends Service {
 
     await this.categoriaService.obterRegistroPorId(dados.categoriaId);
 
-    console.log(dados);
-
     const chamado = await super.criarRegistro(dados);
 
     await this.historicoService.registrar({

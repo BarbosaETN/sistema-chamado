@@ -1,8 +1,5 @@
 import { Sequelize } from 'sequelize';
 
-console.log('HOST:', process.env.MYSQLHOST);
-console.log('PORT:', process.env.MYSQLPORT);
-
 const sequelize = new Sequelize(
   process.env.MYSQLDATABASE,
   process.env.MYSQLUSER,
