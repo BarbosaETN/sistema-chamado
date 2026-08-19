@@ -117,4 +117,104 @@ describe('ChamadoService', () => {
       })
     })
   })
+
+  describe('resolverChamado', () => {
+    it('Deve rejeitar um chamado que não está em andamento', async () => {
+      const service = new ChamadoService();
+
+      jest
+        .spyOn(service, 'obterRegistroPorId')
+        .mockResolvedValue({
+          id: 1,
+          status: 'Aberto',
+          tecnicoId: 10,
+        });
+      
+      await expect(
+        service.resolverChamado(1)
+      ).rejects.toThrow(
+        'Somente chamados em andamento podem ser resolvidos.'
+      );
+    });
+
+    it('deve resolver um chamado em andamento', async () => {
+      const service = new ChamadoService();
+
+      const chamado = {
+        id: 1,
+        status: 'EM ANDAMENTO',
+        tecnicoId: 10,
+        save: jest.fn().mockResolvedValue(),
+      };
+
+      jest
+        .spyOn(service, 'obterRegistroPorId')
+        .mockResolvedValue(chamado);
+
+      const historicoSpy = jest
+        .spyOn(service.historicoService, 'registrar')
+        .mockResolvedValue();
+
+      const resultado = await service.resolverChamado(1)
+
+      expect(resultado.status).toBe('RESOLVIDO');
+      expect(chamado.save).toHaveBeenCalled();
+      expect(historicoSpy).toHaveBeenCalledWith({
+        chamadoId: 1,
+        usuarioId: 10,
+        acao: HISTORICO_ACAO.RESOLVIDO,
+        descricao: 'Chamado resolvido.',
+      });
+    });
+  });
+
+  describe('fecharChamado', () => {
+    it('deve rejeitar um chamado que não está resolvido', async () => {
+      const service = new ChamadoService();
+
+      jest
+        .spyOn(service, 'obterRegistroPorId')
+        .mockResolvedValue({
+          id: 1,
+          status: 'Em andamento',
+          tecnicoId: 10,
+        });
+      
+      await expect(
+        service.fecharChamado(1)
+      ).rejects.toThrow(
+        'Somente chamados resolvidos podem ser fechados.'
+      );
+    });
+
+    it('deve fechar um chamado resolvido', async () => {
+      const service = new ChamadoService();
+
+      const chamado = {
+        id: 1,
+        status: 'RESOLVIDO',
+        tecnicoId: 10,
+        save: jest.fn().mockResolvedValue(),
+      };
+
+      jest
+        .spyOn(service, 'obterRegistroPorId')
+        .mockResolvedValue(chamado);
+
+      const historicoSpy = jest
+        .spyOn(service.historicoService, 'registrar')
+        .mockResolvedValue();
+
+      const resultado = await service.fecharChamado(1)
+
+      expect(resultado.status).toBe('FECHADO');
+      expect(chamado.save).toHaveBeenCalled();
+      expect(historicoSpy).toHaveBeenCalledWith({
+        chamadoId: 1,
+        usuarioId: 10,
+        acao: HISTORICO_ACAO.FECHADO,
+        descricao: 'Chamado fechado.',
+      });
+    });
+  })
 });
