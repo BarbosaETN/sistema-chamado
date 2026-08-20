@@ -5,3 +5,13 @@ services:
       - "3000:3000"
     env_file:
       - .env
+
+  mysql-test:
+    image: mysql:8.4
+    environment:
+      MYSQL_DATABASE: sistema_chamados_test
+      MYSQL_USER: teste
+      MYSQL_PASSWORD: teste
+      MYSQL_ROOT_PASSWORD: root
+    ports:
+      - "3307:3306"
