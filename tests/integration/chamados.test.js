@@ -596,6 +596,24 @@ describe('GET /chamados', () => {
 
       expect(indiceZZZ).toBeLessThan(indiceYYY);
     });
+
+    it('deve filtrar chamados por status e prioridade', async () => {
+      const response = await request(app)
+        .get('/chamados')
+        .query({
+          status: 'ABERTO',
+          prioridade: 'ALTA',
+        });
+
+      expect(response.statusCode).toBe(200);
+
+      expect(response.body.chamados.length).toBeGreaterThan(0)
+
+      response.body.chamados.forEach((chamado) => {
+        expect(chamado.status).toBe('ABERTO');
+        expect(chamado.prioridade).toBe('ALTA');
+      });
+    });
   });
 });
 
@@ -805,3 +823,28 @@ describe('GET /chamados/:id', () => {
     expect(response.body.erro).toBe('Chamado não encontrado');
   });
 });
+
+describe('PUT /chamados/:id', () => {
+    it('deve atualizar um chamado corretamente', async () => {
+    const chamado = await models.Chamado.create({
+      titulo: 'Chamado antes da atualização',
+      descricao: 'Descrição antiga.',
+      setor: 'TI',
+      status: 'ABERTO',
+      categoriaId: categoria.id,
+      usuarioId: usuario.id,
+    });
+
+    const response = await request(app)
+      .put(`/chamados/${chamado.id}`)
+      .send({
+        titulo: 'Chamado atualizado',
+        descricao: 'Descrição atualizada.',
+      });
+
+    expect(response.statusCode).toBe(200);
+
+    expect(response.body.titulo).toBe('Chamado atualizado');
+    expect(response.body.descricao).toBe('Descrição atualizada.');
+  });
+})
