@@ -3,6 +3,7 @@ import CategoriaService from "./CategoriaService.js";
 import HistoricoChamadoService from "./HistoricoChamadoService.js";
 import HISTORICO_ACAO from "../constants/historicoAcao.js";
 import STATUS, { STATUS_VALUES } from "../constants/status.js";
+import PRIORIDADE, { PRIORIDADE_VALUES } from "../constants/prioridade.js";
 import ValidationError from "../errors/ValidationError.js";
 import models from "../database/models/index.js";
 import { Op } from "sequelize";
@@ -40,6 +41,30 @@ class ChamadoService extends Service {
   async listarRegistros(filtros = {}) {
     const where = {};
 
+    if (filtros.status && !STATUS_VALUES.includes(filtros.status)) {
+      throw new ValidationError("Status inválido");
+    }
+
+    if (filtros.prioridade && !PRIORIDADE_VALUES.includes(filtros.prioridade)) {
+      throw new ValidationError("Prioridade inválida");
+    }
+
+    if (
+      filtros.categoriaId &&
+      (!Number.isInteger(Number(filtros.categoriaId)) ||
+        Number(filtros.categoriaId) <= 0)
+    ) {
+      throw new ValidationError("Categoria inválida");
+    }
+
+    if (
+      filtros.tecnicoId &&
+      (!Number.isInteger(Number(filtros.tecnicoId)) ||
+        Number(filtros.tecnicoId) <= 0)
+    ) {
+      throw new ValidationError("Técnico inválido");
+    }
+
     if (filtros.status) {
       where.status = filtros.status;
     }
@@ -49,23 +74,23 @@ class ChamadoService extends Service {
     }
 
     if (filtros.categoriaId) {
-      where.categoriaId = filtros.categoriaId;
+      where.categoriaId = Number(filtros.categoriaId);
     }
 
     if (filtros.tecnicoId) {
-      where.tecnicoId = filtros.tecnicoId;
+      where.tecnicoId = Number(filtros.tecnicoId);
     }
 
-    if (filtros.busca) {
+    if (filtros.busca?.trim()) {
       where[Op.or] = [
         {
           titulo: {
-            [Op.like]: `%${filtros.busca}%`,
+            [Op.like]: `%${filtros.busca.trim()}%`,
           },
         },
         {
           descricao: {
-            [Op.like]: `%${filtros.busca}%`,
+            [Op.like]: `%${filtros.busca.trim()}%`,
           },
         },
       ];
@@ -75,36 +100,28 @@ class ChamadoService extends Service {
     const limit = Math.min(Math.max(Number(filtros.limit) || 10, 1), 100);
 
     const offset = (page - 1) * limit;
-    
-    const camposOrdenacao = [
-      'createdAt',
-      'titulo',
-      'status',
-      'prioridade'
-    ]
+
+    const camposOrdenacao = ["createdAt", "titulo", "status", "prioridade"];
 
     const sortBy = camposOrdenacao.includes(filtros.sortBy)
       ? filtros.sortBy
-      : 'createdAt';
+      : "createdAt";
 
-    const order =
-      filtros.order?.toUpperCase() === 'ASC'
-        ? 'ASC'
-        : 'DESC'
+    const order = filtros.order?.toUpperCase() === "ASC" ? "ASC" : "DESC";
 
     const { count, rows } = await this.model.findAndCountAll({
       where,
       include: [
         {
-          association: 'usuario',
-          attributes: ['id', 'nome'],
+          association: "usuario",
+          attributes: ["id", "nome"],
         },
         {
-          association: 'tecnico',
-          attributes: ['id', 'nome'],
+          association: "tecnico",
+          attributes: ["id", "nome"],
         },
         {
-          association: 'categoria',
+          association: "categoria",
         },
       ],
       order: [[sortBy, order]],
