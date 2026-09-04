@@ -6,6 +6,7 @@ import ValidationError from "../errors/ValidationError.js";
 
 import STATUS from "../constants/status.js";
 import HISTORICO_ACAO from "../constants/historicoAcao.js";
+import HistoricoChamadoService from "./HistoricoChamadoService.js";
 
 class ComentarioService extends Service {
   constructor() {
@@ -13,6 +14,7 @@ class ComentarioService extends Service {
 
     this.chamadoService = new ChamadoService();
     this.usuarioService = new UsuarioService();
+    this.historicoService = new HistoricoChamadoService()
   }
 
   async criarRegistro(dados) {

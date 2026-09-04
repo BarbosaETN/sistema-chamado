@@ -1003,7 +1003,7 @@ describe("GET /chamados", () => {
         busca: "Busca Ordenacao",
         sortBy: "titulo",
         order: "ASC",
-        limit: 10,
+        limit: 100,
       });
 
       expect(response.statusCode).toBe(200);
@@ -1025,7 +1025,7 @@ describe("GET /chamados", () => {
         busca: "Busca Ordenacao",
         sortBy: "titulo",
         order: "DESC",
-        limit: 10,
+        limit: 100,
       });
 
       expect(response.statusCode).toBe(200);
