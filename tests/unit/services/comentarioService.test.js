@@ -4,6 +4,7 @@ import ComentarioService from '../../../src/services/ComentarioService.js';
 
 import STATUS from '../../../src/constants/status.js';
 import HISTORICO_ACAO from '../../../src/constants/historicoAcao.js';
+import NotFoundError from '../../../src/errors/NotFoundError.js';
 
 describe('ComentarioService', () => {
   describe('criarRegistro', () => {
@@ -96,6 +97,76 @@ describe('ComentarioService', () => {
         await expect(
             comentarioService.criarRegistro(dados),
         ).rejects.toThrow('O comentário é obrigatório.');
+    });
+
+    it("deve rejeitar comentário em um chamado fechado", async () => {
+      const comentarioService = new ComentarioService();
+
+      const dados = {
+        conteudo: "Tentativa de comentário.",
+        chamadoId: 1,
+        usuarioId: 2,
+      };
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockResolvedValue({
+          id: 1,
+          status: STATUS.FECHADO,
+        });
+
+      await expect(
+        comentarioService.criarRegistro(dados),
+      ).rejects.toThrow(
+        "Não é possível comentar em um chamado fechado.",
+      );
+    });
+
+    it("deve rejeitar comentário em chamado inexistente", async () => {
+      const comentarioService = new ComentarioService();
+
+      const dados = {
+        conteudo: "Tentativa de comentário.",
+        chamadoId: 999,
+        usuarioId: 2,
+      };
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockRejectedValue(
+          new NotFoundError("Chamado não encontrado"),
+        );
+
+      await expect(
+        comentarioService.criarRegistro(dados),
+      ).rejects.toThrow("Chamado não encontrado");
+    });
+
+    it("deve rejeitar comentário de usuário inexistente", async () => {
+      const comentarioService = new ComentarioService();
+
+      const dados = {
+        conteudo: "Comentário de usuário inexistente.",
+        chamadoId: 1,
+        usuarioId: 999,
+      };
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockResolvedValue({
+          id: 1,
+          status: STATUS.ABERTO,
+        });
+
+      comentarioService.usuarioService.obterRegistroPorId = jest
+        .fn()
+        .mockRejectedValue(
+          new NotFoundError("Usuário não encontrado"),
+        );
+
+      await expect(
+        comentarioService.criarRegistro(dados),
+      ).rejects.toThrow("Usuário não encontrado");
     });
   });
 });
