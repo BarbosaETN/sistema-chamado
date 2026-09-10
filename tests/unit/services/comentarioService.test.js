@@ -169,4 +169,77 @@ describe('ComentarioService', () => {
       ).rejects.toThrow("Usuário não encontrado");
     });
   });
+  
+  describe('listarRegistro', () => {
+    it("deve listar os comentários de um chamado", async () => {
+      const comentarioService = new ComentarioService();
+
+      const comentarios = [
+        {
+          id: 1,
+          conteudo: "Primeiro comentário.",
+          chamadoId: 1,
+          usuarioId: 2,
+        },
+        {
+          id: 2,
+          conteudo: "Segundo comentário.",
+          chamadoId: 1,
+          usuarioId: 3,
+        },
+      ];
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockResolvedValue({
+          id: 1,
+          status: STATUS.ABERTO,
+        });
+
+      comentarioService.model.findAll = jest
+        .fn()
+        .mockResolvedValue(comentarios);
+
+      const resultado = await comentarioService.listarPorChamado(1);
+
+      expect(
+        comentarioService.chamadoService.obterRegistroPorId,
+      ).toHaveBeenCalledWith(1);
+
+      expect(comentarioService.model.findAll).toHaveBeenCalledWith({
+        where: { chamadoId: 1 },
+        include: [
+          {
+            association: "autor",
+            attributes: ["id", "nome"],
+          },
+        ],
+        order: [["createdAt", "ASC"]],
+      });  
+
+      expect(resultado).toEqual(comentarios);
+    });
+
+    it("deve rejeitar a listagem de comentários de um chamado inexistente", async () => {
+      const comentarioService = new ComentarioService();
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockRejectedValue(
+          new NotFoundError("Chamado não encontrado"),
+        );
+
+      comentarioService.model.findAll = jest.fn();
+
+      await expect(
+        comentarioService.listarPorChamado(999),
+      ).rejects.toThrow("Chamado não encontrado");
+
+      expect(
+        comentarioService.chamadoService.obterRegistroPorId,
+      ).toHaveBeenCalledWith(999);
+
+      expect(comentarioService.model.findAll).not.toHaveBeenCalled();
+    });
+  })
 });
