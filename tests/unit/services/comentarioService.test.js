@@ -241,5 +241,100 @@ describe('ComentarioService', () => {
 
       expect(comentarioService.model.findAll).not.toHaveBeenCalled();
     });
+
+    it("deve retornar os comentários em ordem cronológica", async () => {
+      const comentarioService = new ComentarioService();
+
+      const comentarios = [
+        {
+          id: 1,
+          conteudo: "Comentário mais antigo.",
+          chamadoId: 1,
+          usuarioId: 2,
+          createdAt: new Date("2026-09-10T10:00:00"),
+        },
+        {
+          id: 2,
+          conteudo: "Comentário mais recente.",
+          chamadoId: 1,
+          usuarioId: 3,
+          createdAt: new Date("2026-09-10T11:00:00"),
+        },
+      ];
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockResolvedValue({
+          id: 1,
+          status: STATUS.ABERTO,
+        });
+
+      comentarioService.model.findAll = jest
+        .fn()
+        .mockResolvedValue(comentarios);
+
+      const resultado = await comentarioService.listarPorChamado(1);
+
+      expect(comentarioService.model.findAll).toHaveBeenCalledWith({
+        where: { chamadoId: 1 },
+        include: [
+          {
+            association: "autor",
+            attributes: ["id", "nome"],
+          },
+        ],
+        order: [["createdAt", "ASC"]],
+      });
+
+      expect(resultado[0].createdAt.getTime()).toBeLessThan(
+        resultado[1].createdAt.getTime(),
+      );
+    });
+
+    it("deve incluir os dados do autor ao listar comentários", async () => {
+      const comentarioService = new ComentarioService();
+
+      const comentarios = [
+        {
+          id: 1,
+          conteudo: "Comentário do usuário.",
+          chamadoId: 1,
+          usuarioId: 2,
+          autor: {
+            id: 2,
+            nome: "João da Silva",
+          },
+        },
+      ];
+
+      comentarioService.chamadoService.obterRegistroPorId = jest
+        .fn()
+        .mockResolvedValue({
+          id: 1,
+          status: STATUS.ABERTO,
+        });
+
+      comentarioService.model.findAll = jest
+        .fn()
+        .mockResolvedValue(comentarios);
+
+      const resultado = await comentarioService.listarPorChamado(1);
+
+      expect(comentarioService.model.findAll).toHaveBeenCalledWith({
+        where: { chamadoId: 1 },
+        include: [
+          {
+            association: "autor",
+            attributes: ["id", "nome"],
+          },
+        ],
+        order: [["createdAt", "ASC"]],
+      });
+
+      expect(resultado[0].autor).toEqual({
+        id: 2,
+        nome: "João da Silva",
+      });
+    });
   })
 });
