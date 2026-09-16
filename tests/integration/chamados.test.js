@@ -426,7 +426,7 @@ describe("GET /chamados", () => {
 
     it("deve ordenar chamados por título em ordem decrescente", async () => {
       await models.Chamado.create({
-        titulo: "YYY Chamado",
+        titulo: "ZZZZZZZ Chamado",
         descricao: "Teste de ordenação",
         setor: "TI",
         status: "ABERTO",
@@ -436,7 +436,7 @@ describe("GET /chamados", () => {
       });
 
       await models.Chamado.create({
-        titulo: "ZZZ Chamado",
+        titulo: "ZZZZZZY Chamado",
         descricao: "Teste de ordenação",
         setor: "TI",
         status: "ABERTO",
@@ -455,13 +455,13 @@ describe("GET /chamados", () => {
 
       const titulos = response.body.chamados.map((chamado) => chamado.titulo);
 
-      const indiceYYY = titulos.indexOf("YYY Chamado");
-      const indiceZZZ = titulos.indexOf("ZZZ Chamado");
+      const indiceZZZZZZZ = titulos.indexOf("ZZZZZZZ Chamado");
+      const indiceZZZZZZY = titulos.indexOf("ZZZZZZY Chamado");
 
-      expect(indiceYYY).toBeGreaterThanOrEqual(0);
-      expect(indiceZZZ).toBeGreaterThanOrEqual(0);
+      expect(indiceZZZZZZZ).toBeGreaterThanOrEqual(0);
+      expect(indiceZZZZZZY).toBeGreaterThanOrEqual(0);
 
-      expect(indiceZZZ).toBeLessThan(indiceYYY);
+      expect(indiceZZZZZZZ).toBeLessThan(indiceZZZZZZY);
     });
 
     it("deve usar createdAt quando sortBy for inválido", async () => {
@@ -511,7 +511,7 @@ describe("GET /chamados", () => {
 
     it("deve usar DESC quando order for inválido", async () => {
       await models.Chamado.create({
-        titulo: "YYY Chamado",
+        titulo: "ZZZZZZZ Chamado",
         descricao: "Teste de ordenação",
         setor: "TI",
         status: "ABERTO",
@@ -521,7 +521,7 @@ describe("GET /chamados", () => {
       });
 
       await models.Chamado.create({
-        titulo: "ZZZ Chamado",
+        titulo: "ZZZZZZY Chamado",
         descricao: "Teste de ordenação",
         setor: "TI",
         status: "ABERTO",
@@ -540,13 +540,13 @@ describe("GET /chamados", () => {
 
       const titulos = response.body.chamados.map((chamado) => chamado.titulo);
 
-      const indiceYYY = titulos.indexOf("YYY Chamado");
-      const indiceZZZ = titulos.indexOf("ZZZ Chamado");
+      const indiceZZZZZZZ = titulos.indexOf("ZZZZZZZ Chamado");
+      const indiceZZZZZZY = titulos.indexOf("ZZZZZZY Chamado");
 
-      expect(indiceYYY).toBeGreaterThanOrEqual(0);
-      expect(indiceZZZ).toBeGreaterThanOrEqual(0);
+      expect(indiceZZZZZZZ).toBeGreaterThanOrEqual(0);
+      expect(indiceZZZZZZY).toBeGreaterThanOrEqual(0);
 
-      expect(indiceZZZ).toBeLessThan(indiceYYY);
+      expect(indiceZZZZZZZ).toBeLessThan(indiceZZZZZZY);
     });
 
     it("deve filtrar chamados por status e prioridade", async () => {
