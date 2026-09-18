@@ -53,14 +53,18 @@ jobs:
 
       - name: Testar conexão com Sequelize
         run: |
-          node --input-type=module -e "import sequelize from './src/config/database.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"  
+          node --input-type=module -e "import sequelize from './src/config/database.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"
 
       - name: Executar migrations
         run: npx sequelize-cli db:migrate
 
       - name: Verificar tabelas do banco
         run: |
-          mysql -h 127.0.0.1 -P 3307 -u teste -pteste sistema_chamados_test -e "SHOW TABLES;"  
-          
+          mysql -h 127.0.0.1 -P 3307 -u teste -pteste sistema_chamados_test -e "SHOW TABLES;"
+
+      - name: Testar consulta de usuário
+        run: |
+          node --input-type=module -e "import models from './src/database/models/index.js'; try { const usuario = await models.Usuario.findOne({ where: { email: 'teste@integracao.com' } }); console.log('Usuário encontrado:', usuario); } catch (erro) { console.error('ERRO REAL:', erro); process.exit(1); }"
+
       - name: Executar testes
         run: npm test -- --runInBand
