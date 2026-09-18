@@ -48,16 +48,8 @@ jobs:
           node-version: 24
           cache: npm
 
-      - name: Verificar MySQL
-        run: |
-          mysqladmin ping -h 127.0.0.1 -P 3307 -u teste -pteste
-
-      - name: Verificar variáveis
-        run: |
-          node -e "console.log('HOST:', process.env.MYSQLHOST)"
-          node -e "console.log('PORT:', process.env.MYSQLPORT)"
-          node -e "console.log('DATABASE:', process.env.MYSQLDATABASE)"
-          node -e "console.log('USER:', process.env.MYSQLUSER)"    
-
       - name: Instalar dependências
         run: npm ci
+
+      - name: Executar testes
+        run: npm test -- --runInBand
