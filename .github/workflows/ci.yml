@@ -66,5 +66,9 @@ jobs:
         run: |
           node --input-type=module -e "import models from './src/database/models/index.js'; try { const usuario = await models.Usuario.findOne({ where: { email: 'teste@integracao.com' } }); console.log('Usuário encontrado:', usuario); } catch (erro) { console.error('ERRO REAL:', erro); process.exit(1); }"
 
+      - name: Testar criação de usuário
+        run: |
+          node --input-type=module -e "import models from './src/database/models/index.js'; import bcrypt from 'bcrypt'; import STATUS_CADASTRO from './src/constants/statusCadastro.js'; try { const senha = await bcrypt.hash('123456', 10); const usuario = await models.Usuario.create({ nome: 'Usuário Teste', email: 'teste@integracao.com', senha, cargo: 'USUARIO', statusCadastro: STATUS_CADASTRO.APROVADO }); console.log('Usuário criado:', usuario.toJSON()); } catch (erro) { console.error('ERRO REAL AO CRIAR:', erro); process.exit(1); }"
+
       - name: Executar testes
         run: npm test -- --runInBand
