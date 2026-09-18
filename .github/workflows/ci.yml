@@ -53,7 +53,7 @@ jobs:
 
       - name: Testar conexão com Sequelize
         run: |
-          node --input-type=module -e "import sequelize from './src/database/database.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"  
+          node --input-type=module -e "import sequelize from './src/config/database.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"  
 
       - name: Executar testes
         run: npm test -- --runInBand
