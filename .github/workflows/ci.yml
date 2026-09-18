@@ -51,5 +51,9 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
+      - name: Testar conexão com Sequelize
+        run: |
+          node --input-type=module -e "import sequelize from './src/database/connection.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"  
+
       - name: Executar testes
         run: npm test -- --runInBand
