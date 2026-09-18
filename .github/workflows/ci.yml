@@ -57,6 +57,10 @@ jobs:
 
       - name: Executar migrations
         run: npx sequelize-cli db:migrate
+
+      - name: Verificar tabelas do banco
+        run: |
+          mysql -h 127.0.0.1 -P 3307 -u teste -pteste sistema_chamados_test -e "SHOW TABLES;"  
           
       - name: Executar testes
         run: npm test -- --runInBand
