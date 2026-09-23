@@ -78,5 +78,9 @@ jobs:
         run: |
           node --input-type=module -e "import jwt from 'jsonwebtoken'; try { const token = jwt.sign({ id: 1, email: 'teste@integracao.com', cargo: 'USUARIO' }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }); console.log('JWT gerado com sucesso:', !!token); } catch (erro) { console.error('ERRO REAL AO GERAR JWT:', erro); process.exit(1); }"
       
+      - name: Testar criação de técnico
+        run: |
+          node --input-type=module -e "import models from './src/database/models/index.js'; import bcrypt from 'bcrypt'; import STATUS_CADASTRO from './src/constants/statusCadastro.js'; try { const senha = await bcrypt.hash('123456', 10); const tecnico = await models.Usuario.create({ nome: 'Técnico Teste', email: 'tecnico@integracao.com', senha, cargo: 'TECNICO', statusCadastro: STATUS_CADASTRO.APROVADO }); console.log('Técnico criado:', tecnico.toJSON()); } catch (erro) { console.error('ERRO REAL AO CRIAR TÉCNICO:', erro); process.exit(1); }"
+
       - name: Executar testes
         run: npm test -- --runInBand
