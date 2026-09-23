@@ -2,7 +2,7 @@
 
 API REST desenvolvida em **Node.js** para gerenciamento de chamados de suporte técnico.
 
-O projeto foi desenvolvido com foco em boas práticas de arquitetura, separação de responsabilidades, autenticação e autorização, regras de negócio, auditoria e documentação de API.
+O projeto foi desenvolvido com foco em boas práticas de arquitetura, separação de responsabilidades, autenticação e autorização, regras de negócio, auditoria, testes automatizados, CI/CD e documentação de API.
 
 A aplicação utiliza uma arquitetura em camadas baseada em **Controllers, Services e Models**, com **Sequelize ORM** para persistência de dados e **Docker** para padronização do ambiente de execução.
 
@@ -12,84 +12,102 @@ A aplicação utiliza uma arquitetura em camadas baseada em **Controllers, Servi
 
 ## 🔐 Autenticação e autorização
 
-* Autenticação utilizando JWT
-* Senhas criptografadas com Bcrypt
-* Autorização baseada em cargos
-* Middleware de autenticação
-* Middleware de autorização
-* Aprovação e rejeição de usuários
-* Controle de acesso por perfil
+- Autenticação utilizando JWT
+- Senhas criptografadas com Bcrypt
+- Autorização baseada em cargos
+- Middleware de autenticação
+- Middleware de autorização
+- Aprovação e rejeição de usuários
+- Controle de acesso por perfil
 
 ## 👥 Usuários
 
-* Cadastro de usuários
-* Consulta de usuários
-* Atualização de usuários
-* Exclusão de usuários
-* Aprovação de usuários
-* Rejeição de usuários
-* Controle de perfis
+- Cadastro de usuários
+- Consulta de usuários
+- Atualização de usuários
+- Exclusão de usuários
+- Aprovação de usuários
+- Rejeição de usuários
+- Controle de perfis
 
 ## 🎫 Chamados
 
-* Criação de chamados
-* Consulta de chamados
-* Atualização de chamados
-* Exclusão de chamados
-* Assumir chamados
-* Resolver chamados
-* Fechar chamados
-* Controle de status
-* Controle de prioridade
-* Associação com categorias
-* Associação com técnicos
+- Criação de chamados
+- Consulta de chamados
+- Atualização de chamados
+- Exclusão de chamados
+- Assumir chamados
+- Resolver chamados
+- Fechar chamados
+- Controle de status
+- Controle de prioridade
+- Associação com categorias
+- Associação com técnicos
 
 ## 🏷️ Categorias
 
-* Criação de categorias
-* Consulta de categorias
-* Atualização de categorias
-* Exclusão de categorias
-* Validação de categorias utilizadas por chamados
+- Criação de categorias
+- Consulta de categorias
+- Atualização de categorias
+- Exclusão de categorias
+- Validação de categorias utilizadas por chamados
 
 ## 💬 Comentários
 
-* Adição de comentários aos chamados
-* Consulta de comentários
-* Associação entre comentários, usuários e chamados
+- Adição de comentários aos chamados
+- Consulta de comentários
+- Associação entre comentários, usuários e chamados
 
 ## 📜 Histórico e auditoria
 
-* Registro automático de alterações
-* Registro do usuário responsável pela ação
-* Histórico por chamado
-* Linha do tempo dos eventos
-* Histórico somente para leitura
+- Registro automático de alterações
+- Registro do usuário responsável pela ação
+- Histórico por chamado
+- Linha do tempo dos eventos
+- Histórico somente para leitura
 
 ## 📊 Consultas e dashboard
 
-* Dashboard com estatísticas
-* Filtros de chamados
-* Busca textual
-* Paginação
-* Ordenação
+- Dashboard com estatísticas
+- Filtros de chamados
+- Busca textual
+- Paginação
+- Ordenação
 
 ## 📖 Documentação
 
-* Documentação OpenAPI
-* Swagger UI
-* Autenticação Bearer Token no Swagger
-* Exemplos de requisições e respostas
+- Documentação OpenAPI
+- Swagger UI
+- Autenticação Bearer Token no Swagger
+- Exemplos de requisições e respostas
 
 ## 🐳 Containerização
 
-* Dockerfile
-* Docker Compose
-* Imagem baseada em Node.js
-* Execução como usuário não-root
-* Healthcheck da API
-* Variáveis de ambiente
-* Execução de migrations através do Docker
+- Dockerfile
+- Docker Compose
+- Imagem baseada em Node.js
+- Execução como usuário não-root
+- Healthcheck da API
+- Variáveis de ambiente
+- Execução de migrations através do Docker
+
+## 🧪 Testes
+
+- Testes unitários
+- Testes de integração
+- Testes dos Services
+- Testes dos endpoints da API
+- Testes de autenticação e regras de negócio
+- Banco de dados MySQL separado para os testes
+
+## 🔄 CI/CD
+
+- GitHub Actions
+- Execução automática dos testes
+- MySQL 8 no ambiente de CI
+- Execução automática das migrations
+- Validação em pushes para `main`
+- Validação em Pull Requests para `main`
 
 ---
 
@@ -97,34 +115,40 @@ A aplicação utiliza uma arquitetura em camadas baseada em **Controllers, Servi
 
 ### Backend
 
-* Node.js
-* Express
-* Sequelize ORM
-* MySQL
-* JWT
-* Bcrypt
+- Node.js
+- Express
+- Sequelize ORM
+- MySQL
+- JWT
+- Bcrypt
+
+### Testes
+
+- Jest
+- Supertest
 
 ### Documentação
 
-* Swagger
-* OpenAPI
-* swagger-jsdoc
-* swagger-ui-express
+- Swagger
+- OpenAPI
+- swagger-jsdoc
+- swagger-ui-express
 
 ### DevOps e ferramentas
 
-* Docker
-* Docker Compose
-* Sequelize CLI
-* ESLint
-* Prettier
-* Git
-* GitHub
+- Docker
+- Docker Compose
+- GitHub Actions
+- Sequelize CLI
+- ESLint
+- Prettier
+- Git
+- GitHub
 
 ### Banco de dados
 
-* MySQL
-* Aiven
+- MySQL
+- Aiven
 
 ---
 
@@ -146,6 +170,10 @@ src/
 ├── services/
 └── utils/
 
+tests/
+├── integration/
+└── unit/
+
 Dockerfile
 docker-compose.yml
 .dockerignore
@@ -166,17 +194,17 @@ README.md
 
 Para executar diretamente com Node.js:
 
-* Node.js 24+
-* npm
-* MySQL compatível
+- Node.js 24+
+- npm
+- MySQL compatível
 
 ### Execução com Docker
 
 Para executar utilizando Docker:
 
-* Docker
-* Docker Compose
-* Acesso ao banco MySQL configurado no ambiente
+- Docker
+- Docker Compose
+- Acesso ao banco MySQL configurado no ambiente
 
 A aplicação atualmente utiliza um banco **MySQL hospedado na Aiven**.
 
@@ -318,11 +346,11 @@ docker compose run --rm api npm run seed
 
 # 👤 Usuários para teste
 
-| Perfil        | Email                                         | Senha      |
-| ------------- | --------------------------------------------- | ---------- |
-| Administrador | [admin@email.com](mailto:admin@email.com)     | admin123   |
-| Técnico       | [tecnico@email.com](mailto:tecnico@email.com) | tecnico123 |
-| Usuário       | [usuario@email.com](mailto:usuario@email.com) | usuario123 |
+| Perfil | Email | Senha |
+|---|---|---|
+| Administrador | admin@email.com | admin123 |
+| Técnico | tecnico@email.com | tecnico123 |
+| Usuário | usuario@email.com | usuario123 |
 
 Todos os usuários de teste são criados com o status **Aprovado**.
 
@@ -334,10 +362,10 @@ Todos os usuários de teste são criados com o status **Aprovado**.
 
 Os seeders disponibilizam categorias como:
 
-* Hardware
-* Software
-* Rede
-* Impressoras
+- Hardware
+- Software
+- Rede
+- Impressoras
 
 ---
 
@@ -351,12 +379,12 @@ http://localhost:3000/docs
 
 A documentação Swagger permite:
 
-* visualizar todos os endpoints;
-* consultar parâmetros;
-* visualizar schemas;
-* consultar exemplos de requisição e resposta;
-* autenticar utilizando JWT;
-* testar os endpoints diretamente pelo navegador.
+- visualizar todos os endpoints;
+- consultar parâmetros;
+- visualizar schemas;
+- consultar exemplos de requisição e resposta;
+- autenticar utilizando JWT;
+- testar os endpoints diretamente pelo navegador.
 
 ---
 
@@ -441,26 +469,26 @@ Representam as entidades persistidas no banco de dados utilizando Sequelize.
 
 Responsáveis por comportamentos transversais, como:
 
-* autenticação;
-* autorização;
-* tratamento de erros.
+- autenticação;
+- autorização;
+- tratamento de erros.
 
 ### Errors
 
 A aplicação utiliza erros personalizados para representar diferentes situações, como:
 
-* validação;
-* autenticação;
-* autorização;
-* recurso não encontrado.
+- validação;
+- autenticação;
+- autorização;
+- recurso não encontrado.
 
 ### Constants
 
 Centralizam valores utilizados pelas regras de negócio, como:
 
-* status;
-* prioridades;
-* ações de histórico.
+- status;
+- prioridades;
+- ações de histórico.
 
 ---
 
@@ -489,11 +517,64 @@ A aplicação é executada em um container Docker e utiliza um banco MySQL exter
 
 O container:
 
-* utiliza Node.js 24;
-* utiliza uma imagem `node:24-slim`;
-* executa como usuário não-root;
-* possui healthcheck;
-* recebe configurações através de variáveis de ambiente.
+- utiliza Node.js 24;
+- utiliza uma imagem `node:24-slim`;
+- executa como usuário não-root;
+- possui healthcheck;
+- recebe configurações através de variáveis de ambiente.
+
+---
+
+# 🧪 Executando os testes
+
+A aplicação possui testes automatizados utilizando **Jest** e **Supertest**.
+
+Os testes são divididos entre testes unitários e testes de integração, cobrindo as principais regras de negócio, Services e endpoints da API.
+
+Atualmente, o projeto possui **102 testes automatizados**, todos passando.
+
+Para executar os testes:
+
+```bash
+npm test -- --runInBand
+```
+
+Os testes de integração utilizam um banco de dados MySQL separado do ambiente de desenvolvimento, evitando que os dados utilizados durante os testes afetem o banco principal.
+
+---
+
+# 🔄 CI/CD
+
+O projeto utiliza **GitHub Actions** para execução automática dos testes.
+
+A cada `push` na branch `main` ou abertura de um Pull Request para `main`, o workflow de CI:
+
+1. Baixa o código do repositório;
+2. Configura o Node.js;
+3. Instala as dependências;
+4. Inicializa um serviço MySQL;
+5. Executa as migrations;
+6. Executa os testes automatizados.
+
+O pipeline garante que as alterações enviadas ao repositório sejam validadas automaticamente.
+
+### Fluxo
+
+```text
+Push / Pull Request
+        ↓
+GitHub Actions
+        ↓
+Node.js 24
+        ↓
+MySQL 8
+        ↓
+Migrations
+        ↓
+Testes automatizados
+        ↓
+CI aprovado
+```
 
 ---
 
@@ -523,35 +604,37 @@ npm run seed
 
 Executa os seeders.
 
----
+```bash
+npm test -- --runInBand
+```
 
-# 🧪 Testes
-
-Os testes automatizados serão implementados em uma etapa posterior do projeto.
-
-Atualmente, os endpoints podem ser validados através da documentação Swagger e das ferramentas de teste de API.
+Executa os testes automatizados.
 
 ---
 
-# 📈 Roadmap
+# 📌 Status do projeto
 
-* [x] Arquitetura em camadas
-* [x] CRUDs principais
-* [x] Autenticação JWT
-* [x] Autorização por cargos
-* [x] Regras de negócio
-* [x] Categorias
-* [x] Comentários
-* [x] Histórico e auditoria
-* [x] Dashboard
-* [x] Filtros e paginação
-* [x] Documentação Swagger/OpenAPI
-* [x] Docker
-* [x] Docker Compose
-* [x] Healthcheck
-* [ ] Testes automatizados
-* [ ] CI/CD
-* [ ] Release 1.0.0
+O projeto encontra-se finalizado em sua versão inicial, com as principais funcionalidades da API implementadas, documentadas e testadas.
+
+### Funcionalidades concluídas
+
+- [x] Arquitetura em camadas
+- [x] CRUDs principais
+- [x] Autenticação JWT
+- [x] Autorização por cargos
+- [x] Regras de negócio
+- [x] Categorias
+- [x] Comentários
+- [x] Histórico e auditoria
+- [x] Dashboard
+- [x] Filtros e paginação
+- [x] Documentação Swagger/OpenAPI
+- [x] Docker
+- [x] Docker Compose
+- [x] Healthcheck
+- [x] Testes unitários
+- [x] Testes de integração
+- [x] CI/CD com GitHub Actions
 
 ---
 
