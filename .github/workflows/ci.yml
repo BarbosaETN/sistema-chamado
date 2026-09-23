@@ -74,5 +74,9 @@ jobs:
         run: |
           node --input-type=module -e "import models from './src/database/models/index.js'; try { const categoria = await models.Categoria.findOne({ where: { nome: 'Hardware' } }); console.log('Categoria encontrada:', categoria?.toJSON() ?? null); if (!categoria) { const novaCategoria = await models.Categoria.create({ nome: 'Hardware' }); console.log('Categoria criada:', novaCategoria.toJSON()); } } catch (erro) { console.error('ERRO REAL AO CRIAR CATEGORIA:', erro); process.exit(1); }"
 
+      - name: Testar geração de JWT
+        run: |
+          node --input-type=module -e "import jwt from 'jsonwebtoken'; try { const token = jwt.sign({ id: 1, email: 'teste@integracao.com', cargo: 'USUARIO' }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }); console.log('JWT gerado com sucesso:', !!token); } catch (erro) { console.error('ERRO REAL AO GERAR JWT:', erro); process.exit(1); }"
+      
       - name: Executar testes
         run: npm test -- --runInBand
