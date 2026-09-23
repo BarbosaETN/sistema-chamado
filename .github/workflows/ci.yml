@@ -51,40 +51,8 @@ jobs:
       - name: Instalar dependências
         run: npm ci
 
-      - name: Testar conexão com Sequelize
-        run: |
-          node --input-type=module -e "import sequelize from './src/config/database.js'; await sequelize.authenticate(); console.log('Sequelize conectado ao MySQL'); await sequelize.close();"
-
       - name: Executar migrations
         run: npx sequelize-cli db:migrate
-
-      - name: Verificar tabelas do banco
-        run: |
-          mysql -h 127.0.0.1 -P 3307 -u teste -pteste sistema_chamados_test -e "SHOW TABLES;"
-
-      - name: Testar consulta de usuário
-        run: |
-          node --input-type=module -e "import models from './src/database/models/index.js'; try { const usuario = await models.Usuario.findOne({ where: { email: 'teste@integracao.com' } }); console.log('Usuário encontrado:', usuario); } catch (erro) { console.error('ERRO REAL:', erro); process.exit(1); }"
-
-      - name: Testar criação de usuário
-        run: |
-          node --input-type=module -e "import models from './src/database/models/index.js'; import bcrypt from 'bcrypt'; import STATUS_CADASTRO from './src/constants/statusCadastro.js'; try { const senha = await bcrypt.hash('123456', 10); const usuario = await models.Usuario.create({ nome: 'Usuário Teste', email: 'teste@integracao.com', senha, cargo: 'USUARIO', statusCadastro: STATUS_CADASTRO.APROVADO }); console.log('Usuário criado:', usuario.toJSON()); } catch (erro) { console.error('ERRO REAL AO CRIAR:', erro); process.exit(1); }"
-
-      - name: Testar criação de categoria
-        run: |
-          node --input-type=module -e "import models from './src/database/models/index.js'; try { const categoria = await models.Categoria.findOne({ where: { nome: 'Hardware' } }); console.log('Categoria encontrada:', categoria?.toJSON() ?? null); if (!categoria) { const novaCategoria = await models.Categoria.create({ nome: 'Hardware' }); console.log('Categoria criada:', novaCategoria.toJSON()); } } catch (erro) { console.error('ERRO REAL AO CRIAR CATEGORIA:', erro); process.exit(1); }"
-
-      - name: Testar geração de JWT
-        run: |
-          node --input-type=module -e "import jwt from 'jsonwebtoken'; try { const token = jwt.sign({ id: 1, email: 'teste@integracao.com', cargo: 'USUARIO' }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN }); console.log('JWT gerado com sucesso:', !!token); } catch (erro) { console.error('ERRO REAL AO GERAR JWT:', erro); process.exit(1); }"
-      
-      - name: Testar criação de técnico
-        run: |
-          node --input-type=module -e "import models from './src/database/models/index.js'; import bcrypt from 'bcrypt'; import STATUS_CADASTRO from './src/constants/statusCadastro.js'; try { const senha = await bcrypt.hash('123456', 10); const tecnico = await models.Usuario.create({ nome: 'Técnico Teste', email: 'tecnico@integracao.com', senha, cargo: 'TECNICO', statusCadastro: STATUS_CADASTRO.APROVADO }); console.log('Técnico criado:', tecnico.toJSON()); } catch (erro) { console.error('ERRO REAL AO CRIAR TÉCNICO:', erro); process.exit(1); }"
-
-      - name: Testar criação de chamado
-        run: |
-          node --input-type=module -e "import models from './src/database/models/index.js'; try { const usuario = await models.Usuario.findOne({ where: { email: 'teste@integracao.com' } }); const categoria = await models.Categoria.findOne({ where: { nome: 'Hardware' } }); const chamado = await models.Chamado.create({ titulo: 'Chamado Teste CI', descricao: 'Teste de integração do CI', setor: 'TI', status: 'ABERTO', prioridade: 'ALTA', usuarioId: usuario.id, categoriaId: categoria.id }); console.log('Chamado criado:', chamado.toJSON()); } catch (erro) { console.error('ERRO REAL AO CRIAR CHAMADO:', erro); process.exit(1); }"
 
       - name: Executar testes
         run: npm test -- --runInBand
